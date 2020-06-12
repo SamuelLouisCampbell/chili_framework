@@ -24,6 +24,7 @@
 #include "Mouse.h"
 #include "Graphics.h"
 
+
 class Game
 {
 public:
@@ -40,6 +41,8 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
+   
+
 	/********************************/
 	/*  User Variables              */
 	/********************************/

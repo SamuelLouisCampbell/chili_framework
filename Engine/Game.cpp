@@ -20,11 +20,13 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include "Vec2.h"
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
-	gfx( wnd )
+	gfx( wnd ) 
+
 {
 }
 
@@ -42,4 +44,11 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
+    
+     gfx.DrawLine({ 1.0f,1.0f }, (Vec2)wnd.mouse.GetPos(), Colors::Red);
+     gfx.DrawLine({ 799.0f,1.0f }, (Vec2)wnd.mouse.GetPos(), Colors::Cyan);
+     gfx.DrawLine({ 1.0f,599.0f }, (Vec2)wnd.mouse.GetPos(), Colors::Yellow);
+     gfx.DrawLine({ 799.0f,599.0f }, (Vec2)wnd.mouse.GetPos());
+    
+
 }
