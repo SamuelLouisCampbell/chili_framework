@@ -63,6 +63,15 @@
     <ClInclude Include="ChiliMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Surface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">
@@ -92,6 +101,12 @@
     <ClCompile Include="COMInitializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Surface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="FramebufferPS.hlsl">
@@ -110,5 +125,10 @@
     <Image Include="Chili.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Fonts\Helvetica.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
   </ItemGroup>
 </Project>

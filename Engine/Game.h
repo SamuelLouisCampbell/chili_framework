@@ -20,9 +20,12 @@
  ******************************************************************************************/
 #pragma once
 
+#include "ChiliWin.h"
+#include "ChiliException.h"
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
+#include "Font.h"
 
 
 class Game
@@ -41,7 +44,7 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
-   
+    Font font;
 
 	/********************************/
 	/*  User Variables              */

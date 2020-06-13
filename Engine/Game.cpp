@@ -22,6 +22,7 @@
 #include "Game.h"
 #include "Vec2.h"
 
+
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
@@ -49,6 +50,5 @@ void Game::ComposeFrame()
      gfx.DrawLine({ 799.0f,1.0f }, (Vec2)wnd.mouse.GetPos(), Colors::Cyan);
      gfx.DrawLine({ 1.0f,599.0f }, (Vec2)wnd.mouse.GetPos(), Colors::Yellow);
      gfx.DrawLine({ 799.0f,599.0f }, (Vec2)wnd.mouse.GetPos());
-    
-
+     font.GetGlyph(65);
 }
