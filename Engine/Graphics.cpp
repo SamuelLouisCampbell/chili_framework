@@ -357,6 +357,28 @@ void Graphics::DrawLine(Vec2 p0, Vec2 p1, Color c)
 
 }
 
+void Graphics::DrawClosedPolyLine(const std::vector<Vec2>& verts, Color c)
+{
+	for (auto i = verts.begin(); i != std::prev(verts.end()); i++)
+	{
+		DrawLine(*i, *std::next(i), c);
+	}
+	DrawLine(verts.back(), verts.front(), c);
+}
+
+void Graphics::DrawSurface(int x, int y, const Surface& s)
+{
+	const int width = s.GetWidth();
+	const int height = s.GetHeight();
+	for (int sy = 0; sy < height; sy++)
+	{
+		for (int sx = 0; sx < width; sx++)
+		{
+			PutPixel(x + sx, y + sy, s.GetPixel(sx, sy));
+		}
+	}
+}
+
 
 //////////////////////////////////////////////////
 //           Graphics Exception

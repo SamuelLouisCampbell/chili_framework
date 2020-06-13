@@ -45,10 +45,15 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-    
+    gfx.DrawSurface(500, 300, sfc);
+
+   // gfx.DrawSurface(200, 300, fsfc);
+
      gfx.DrawLine({ 1.0f,1.0f }, (Vec2)wnd.mouse.GetPos(), Colors::Red);
      gfx.DrawLine({ 799.0f,1.0f }, (Vec2)wnd.mouse.GetPos(), Colors::Cyan);
      gfx.DrawLine({ 1.0f,599.0f }, (Vec2)wnd.mouse.GetPos(), Colors::Yellow);
      gfx.DrawLine({ 799.0f,599.0f }, (Vec2)wnd.mouse.GetPos());
-     font.GetGlyph(65);
+   
+     gfx.DrawClosedPolyLine({ {100.f,200.f},{200.f,300.f},{300.f,300.f},{300.f,200.f} }, Colors::Blue);
+     
 }

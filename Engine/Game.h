@@ -26,6 +26,7 @@
 #include "Mouse.h"
 #include "Graphics.h"
 #include "Font.h"
+#include "Surface.h"
 
 
 class Game
@@ -45,6 +46,9 @@ private:
 	MainWindow& wnd;
 	Graphics gfx;
     Font font;
+    Surface sfc = Surface("Images/Uncompressed-24.bmp");
+    Surface fsfc = Surface(font.GetGlyph(85));
+    
 
 	/********************************/
 	/*  User Variables              */

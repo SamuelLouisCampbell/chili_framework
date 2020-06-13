@@ -1,11 +1,16 @@
 #pragma once
+#include "ChiliWin.h"
 #include "Colors.h"
 #include <memory>
 #include <assert.h>
+#include <string>
+#include <freetype/ftimage.h>
 
 class Surface
 {
 public:
+	Surface(const FT_Bitmap descriptor);
+	Surface(const std::string& filename);
 	Surface(int width, int height);
 	Surface(const Surface& rhs);
 	~Surface();

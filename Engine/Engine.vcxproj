@@ -231,6 +231,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Chili.ico" />
+    <Image Include="Images\Uncompressed-24.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Fonts\Helvetica.ttf" />

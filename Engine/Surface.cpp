@@ -1,4 +1,74 @@
 #include "Surface.h"
+#include <fstream>
+
+Surface::Surface(const FT_Bitmap descriptor)
+	:
+	width(descriptor.width),
+	height(descriptor.rows)
+{
+	//BITMAPFILEHEADER bmFileHeader;
+	//descriptor.buffer(reinterpret_cast<char*>(&bmFileHeader),sizeof(bmFileHeader))
+
+
+	//pPixels = (std::make_unique<Color[]>(width * height));
+	//for (int y = 0; y < height; y++)
+	//{
+	//	for (int x = 0; x < width; x++)
+	//	{
+	//		PutPixel(x, y, *descriptor.buffer);
+	//	}
+	//}
+
+}
+
+Surface::Surface(const std::string& filename) //load a bitmap from file and create surface.
+{
+	std::ifstream file(filename, std::ios::binary);
+	assert(file); //file error
+
+	BITMAPFILEHEADER bmFileheader; //Microsoft struct
+	file.read(reinterpret_cast<char*>(&bmFileheader),sizeof(bmFileheader));
+	BITMAPINFOHEADER bmInfoheader; //Microsoft struct
+	file.read(reinterpret_cast<char*>(&bmInfoheader), sizeof(bmInfoheader));
+
+	assert(bmInfoheader.biBitCount == 24); //bitdepth error
+	assert(bmInfoheader.biCompression == BI_RGB); //no compression
+
+	width = bmInfoheader.biWidth;
+	height = bmInfoheader.biHeight;
+
+	pPixels = std::make_unique<Color[]>(width * height);
+
+	file.seekg(bmFileheader.bfOffBits);
+	const int padding = (4 - (width *3) % 4) % 4;
+	if (height < 0)
+	{
+		for (int y = 0; y < height; y++)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				PutPixel(x, y, Color(file.get(), file.get(), file.get()));
+
+			}
+			file.seekg(padding, std::ios::cur);
+		}
+	}
+	else
+	{
+		for (int y = height -1; y > 0; y--)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				PutPixel(x, y, Color(file.get(), file.get(), file.get()));
+
+			}
+			file.seekg(padding, std::ios::cur);
+		}
+	}
+
+
+
+}
 
 Surface::Surface(int width, int height)
 	:
@@ -37,18 +107,18 @@ Surface& Surface::operator=(const Surface& rhs)
 
 void Surface::PutPixel(int x, int y, Color c)
 {
-	assert(x > 0);
+	assert(x >= 0);
 	assert(x < width);
-	assert(y > 0);
+	assert(y >= 0);
 	assert(y < height);
 	pPixels[y * width + x] = c;
 }
 
 Color Surface::GetPixel(int x, int y) const
 {
-	assert(x > 0);
+	assert(x >= 0);
 	assert(x < width);
-	assert(y > 0);
+	assert(y >= 0);
 	assert(y < height);
 	return pPixels[y * width + x];
 }

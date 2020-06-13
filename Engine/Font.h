@@ -1,4 +1,5 @@
 #pragma once
+#include "ChiliWin.h"
 #include <ft2build.h>
 //#include <freetype/freetype.h>
 #include FT_FREETYPE_H
@@ -12,7 +13,8 @@ public:
 	}
 
 	int GetNumGlyphs() const;
-	void GetGlyph(unsigned int code) const;
+	FT_Bitmap GetGlyph(unsigned int code) const;
+	
 
 private:
 	void Init();

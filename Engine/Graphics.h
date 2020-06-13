@@ -22,9 +22,11 @@
 #include "ChiliWin.h"
 #include <d3d11.h>
 #include <wrl.h>
+#include <vector>
 #include "ChiliException.h"
 #include "Colors.h"
 #include "Vec2.h"
+#include "Surface.h"
 
 class Graphics
 {
@@ -59,6 +61,8 @@ public:
 	}
 	void PutPixel( int x,int y,Color c );
 	void DrawLine(Vec2 p0, Vec2 p1, Color c = Colors::Green);
+	void DrawClosedPolyLine(const std::vector<Vec2>& verts, Color c = Colors::Green);
+	void DrawSurface(int x, int y, const Surface& s);
 
 	~Graphics();
 private:
