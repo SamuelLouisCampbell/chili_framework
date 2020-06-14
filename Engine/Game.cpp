@@ -21,14 +21,16 @@
 #include "MainWindow.h"
 #include "Game.h"
 #include "Vec2.h"
+#include "Star.h"
 
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
-	gfx( wnd ) 
-
-{
+	gfx( wnd ),
+    ct ( gfx ),
+    e1 (Star::Make(150.0f, 20.0f, 12))
+{ 
 }
 
 void Game::Go()
@@ -41,19 +43,44 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+    const float speed = 3.0f; 
+    if (wnd.kbd.KeyIsPressed(VK_DOWN))
+    {
+        e1.TranslateBy({ 0.0f, -speed });
+    }
+    if (wnd.kbd.KeyIsPressed(VK_UP))
+    {
+        e1.TranslateBy({ 0.0f, speed });
+    }
+    if (wnd.kbd.KeyIsPressed(VK_LEFT))
+    {
+        e1.TranslateBy({ -speed, 0.0f });
+    }
+    if (wnd.kbd.KeyIsPressed(VK_RIGHT))
+    {
+        e1.TranslateBy({ speed, 0.0f });
+    }
+     
+    while (!wnd.mouse.IsEmpty())
+    {
+        const auto e = wnd.mouse.Read();
+        if (e.GetType() == Mouse::Event::Type::WheelUp)
+        {
+            e1.SetScale(e1.GetScale() * 1.05f);
+        }
+        if (e.GetType() == Mouse::Event::Type::WheelDown)
+        {
+            e1.SetScale(e1.GetScale() * 0.95f);
+        }
+    }
 }
 
 void Game::ComposeFrame()
 {
-    gfx.DrawSurface(500, 300, sfc);
+     gfx.DrawSurface(500, 300, sfc);
 
-   // gfx.DrawSurface(200, 300, fsfc);
+     ct.DrawClosedPolyLine(e1.GetPolyLine(), Colors::Blue);
 
-     gfx.DrawLine({ 1.0f,1.0f }, (Vec2)wnd.mouse.GetPos(), Colors::Red);
-     gfx.DrawLine({ 799.0f,1.0f }, (Vec2)wnd.mouse.GetPos(), Colors::Cyan);
-     gfx.DrawLine({ 1.0f,599.0f }, (Vec2)wnd.mouse.GetPos(), Colors::Yellow);
-     gfx.DrawLine({ 799.0f,599.0f }, (Vec2)wnd.mouse.GetPos());
-   
-     gfx.DrawClosedPolyLine({ {100.f,200.f},{200.f,300.f},{300.f,300.f},{300.f,200.f} }, Colors::Blue);
+
      
 }

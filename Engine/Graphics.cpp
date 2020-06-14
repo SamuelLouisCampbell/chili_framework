@@ -335,7 +335,12 @@ void Graphics::DrawLine(Vec2 p0, Vec2 p1, Color c)
 		for (int x = int(p0.x); x < int(p1.x); x++)
 		{
 			const float y = m * float(x) + b;
-			PutPixel(x, int(y), c);
+
+			const int yi = int(y);
+			if (x >= 0 && x < ScreenWidth && yi >= 0 && yi < ScreenHeight)
+			{
+				PutPixel(x, int(y), c);
+			}
 		}
 	}
 	else
@@ -350,7 +355,12 @@ void Graphics::DrawLine(Vec2 p0, Vec2 p1, Color c)
 		for (int y = int(p0.y); y < int(p1.y); y++)
 		{
 			const float x = w * float(y) + p;
-			PutPixel(x, int(y), c);
+
+			const int xi = int(x);
+			if (xi >= 0 && xi < ScreenWidth && y >= 0 && y < ScreenHeight)
+			{
+				PutPixel(x, int(y), c);
+			}
 		}
 
 	}

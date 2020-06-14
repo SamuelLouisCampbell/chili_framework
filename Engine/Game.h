@@ -27,7 +27,8 @@
 #include "Graphics.h"
 #include "Font.h"
 #include "Surface.h"
-
+#include "CoordinateTransformer.h"
+#include "Entity.h"
 
 class Game
 {
@@ -48,7 +49,8 @@ private:
     Font font;
     Surface sfc = Surface("Images/Uncompressed-24.bmp");
     Surface fsfc = Surface(font.GetGlyph(85));
-    
+    CoordinateTransformer ct; 
+    Entity e1; 
 
 	/********************************/
 	/*  User Variables              */
