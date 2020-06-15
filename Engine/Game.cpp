@@ -29,7 +29,7 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-    font("Fonts/Helvetica.ttf", library)
+    font("Fonts/Helvetica.ttf", library, 32)
 { 
  
    /* 
@@ -73,31 +73,7 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-   /* FT_GlyphSlot slot = face->glyph;
-    float pen_x = 0;
-    float pen_y = 0;
-    std::string str = "Hello you!";
-    for (int n = 0; n < str.size(); n++)
-    {
-        FT_UInt glyph_index = FT_Get_Char_Index(face, str[n]);
-
-        if (FT_Load_Glyph(face, glyph_index, FT_LOAD_DEFAULT))
-        {
-            OutputDebugString(L"...Error loading glyph slot...\n");
-        }
-        if (FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL))
-        {
-            OutputDebugString(L"...Error loading glyph slot...\n");
-        }
-        
-        Surface sfc{ &slot->bitmap, pen_x + slot->bitmap_left, pen_y - slot->bitmap_top };
-        gfx.DrawSurface(200 + sfc.getPosOffset().x, 200 +sfc.getPosOffset().y, sfc);
-
-        pen_x += slot->advance.x >> 6;
-        pen_y += slot->advance.y >> 6;*/
-
-
-  //  }
-
+    std::string str = "Hello!";
+    font.RenderString(gfx, fontPos, str);
 
 }

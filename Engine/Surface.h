@@ -4,7 +4,7 @@
 #include <memory>
 #include <assert.h>
 #include <string>
-#include <freetype/ftimage.h>
+#include "FreeType.h"
 #include "Vec2.h"
 
 class Surface

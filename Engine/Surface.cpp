@@ -9,8 +9,9 @@ Surface::Surface(const FT_Bitmap* ftbmp, const float penX, const float penY)
 	height = ftbmp->rows;
 	
 	pPixels = std::make_unique<Color[]>(width * height);
-	
+
 	assert(ftbmp->pixel_mode == FT_PIXEL_MODE_GRAY);
+
 	unsigned char* p = ftbmp->buffer;
 	for (int y = 0; y < height; y++)
 	{
