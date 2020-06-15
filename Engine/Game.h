@@ -46,11 +46,8 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
-    Font font;
-    Surface sfc = Surface("Images/Uncompressed-24.bmp");
-    Surface fsfc = Surface(font.GetGlyph(85));
-    CoordinateTransformer ct; 
-    Entity e1; 
+    FT_Library library;
+    FT_Face face;
 
 	/********************************/
 	/*  User Variables              */

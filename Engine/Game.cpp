@@ -21,16 +21,40 @@
 #include "MainWindow.h"
 #include "Game.h"
 #include "Vec2.h"
-#include "Star.h"
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
-	gfx( wnd ),
-    ct ( gfx ),
-    e1 (Star::Make(150.0f, 20.0f, 12))
+	gfx( wnd )
 { 
+ 
+    
+    if (int errorFTlib = FT_Init_FreeType(&library))
+    {
+        OutputDebugString(L"... an error occurred during library initialization ...\n");
+    }
+
+    int errorFTface = FT_New_Face(library, "Fonts/Helvetica.ttf", 0, &face);
+    if (errorFTface == FT_Err_Unknown_File_Format)
+    {
+        OutputDebugString(L"... the font file could be openedand read, but it appears that its font format is unsupported\n");
+    }
+    else if (errorFTface)
+    {
+        OutputDebugString(L"... the font file could not be opened or read, or it is broken...\n");
+    }
+
+    if (FT_Set_Char_Size(face,  0, 80 * 64, 800, 600))
+    {
+        OutputDebugString(L"...Could not set font size...\n");
+    }
+    if (FT_Set_Pixel_Sizes(face, 0, 80))
+    {
+        OutputDebugString(L"...Could not set pixel size...\n");
+    }
 }
 
 void Game::Go()
@@ -43,44 +67,36 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-    const float speed = 3.0f; 
-    if (wnd.kbd.KeyIsPressed(VK_DOWN))
-    {
-        e1.TranslateBy({ 0.0f, -speed });
-    }
-    if (wnd.kbd.KeyIsPressed(VK_UP))
-    {
-        e1.TranslateBy({ 0.0f, speed });
-    }
-    if (wnd.kbd.KeyIsPressed(VK_LEFT))
-    {
-        e1.TranslateBy({ -speed, 0.0f });
-    }
-    if (wnd.kbd.KeyIsPressed(VK_RIGHT))
-    {
-        e1.TranslateBy({ speed, 0.0f });
-    }
-     
-    while (!wnd.mouse.IsEmpty())
-    {
-        const auto e = wnd.mouse.Read();
-        if (e.GetType() == Mouse::Event::Type::WheelUp)
-        {
-            e1.SetScale(e1.GetScale() * 1.05f);
-        }
-        if (e.GetType() == Mouse::Event::Type::WheelDown)
-        {
-            e1.SetScale(e1.GetScale() * 0.95f);
-        }
-    }
+  
 }
 
 void Game::ComposeFrame()
 {
-     gfx.DrawSurface(500, 300, sfc);
+    FT_GlyphSlot slot = face->glyph;
+    float pen_x = 0;
+    float pen_y = 0;
+    std::string str = "Hello you!";
+    for (int n = 0; n < str.size(); n++)
+    {
+        FT_UInt glyph_index = FT_Get_Char_Index(face, str[n]);
 
-     ct.DrawClosedPolyLine(e1.GetPolyLine(), Colors::Blue);
+        if (FT_Load_Glyph(face, glyph_index, FT_LOAD_DEFAULT))
+        {
+            OutputDebugString(L"...Error loading glyph slot...\n");
+        }
+        if (FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL))
+        {
+            OutputDebugString(L"...Error loading glyph slot...\n");
+        }
+        
+        Surface sfc{ &slot->bitmap, pen_x + slot->bitmap_left, pen_y - slot->bitmap_top };
+        gfx.DrawSurface(200 + sfc.getPosOffset().x, 200, sfc);
+
+        pen_x += slot->advance.x >> 6;
+        pen_y += slot->advance.y >> 6;
 
 
-     
+    }
+
+
 }

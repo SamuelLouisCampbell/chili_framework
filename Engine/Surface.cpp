@@ -1,25 +1,31 @@
 #include "Surface.h"
 #include <fstream>
 
-Surface::Surface(const FT_Bitmap descriptor)
-	:
-	width(descriptor.width),
-	height(descriptor.rows)
+
+Surface::Surface(const FT_Bitmap* ftbmp, const float penX, const float penY)
 {
-	//BITMAPFILEHEADER bmFileHeader;
-	//descriptor.buffer(reinterpret_cast<char*>(&bmFileHeader),sizeof(bmFileHeader))
+	posOffset = { penX,penY };
+	width = ftbmp->width;
+	height = ftbmp->rows;
+	
+	pPixels = std::make_unique<Color[]>(width * height);
+	
+	assert(ftbmp->pixel_mode == FT_PIXEL_MODE_GRAY);
+	unsigned char* p = ftbmp->buffer;
+	for (int y = 0; y < height; y++)
+	{
+		
+		for (int x = 0; x < width ; x++)
+		{
+			unsigned char grey = *p;
+			PutPixel(x, y, Color(grey,grey,grey));
+			p++;
 
-
-	//pPixels = (std::make_unique<Color[]>(width * height));
-	//for (int y = 0; y < height; y++)
-	//{
-	//	for (int x = 0; x < width; x++)
-	//	{
-	//		PutPixel(x, y, *descriptor.buffer);
-	//	}
-	//}
-
+		}
+		//p += ftbmp->pitch;
+	}
 }
+
 
 Surface::Surface(const std::string& filename) //load a bitmap from file and create surface.
 {
@@ -131,4 +137,9 @@ int Surface::GetWidth() const
 int Surface::GetHeight() const
 {
 	return height;
+}
+
+Vec2 Surface::getPosOffset() const
+{
+	return posOffset;
 }

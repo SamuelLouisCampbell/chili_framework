@@ -5,11 +5,12 @@
 #include <assert.h>
 #include <string>
 #include <freetype/ftimage.h>
+#include "Vec2.h"
 
 class Surface
 {
 public:
-	Surface(const FT_Bitmap descriptor);
+	Surface(const FT_Bitmap* ftbmp, const float penX, const float penY);
 	Surface(const std::string& filename);
 	Surface(int width, int height);
 	Surface(const Surface& rhs);
@@ -19,10 +20,13 @@ public:
 	Color GetPixel(int x, int y) const;
 	int GetWidth() const; 
 	int GetHeight() const; 
+	Vec2 getPosOffset() const; 
 
 private:
 	std::unique_ptr<Color[]> pPixels;
 	int width;
 	int height; 
+	Vec2 posOffset = { 0.0f,0.0f };
+	
 };
 

@@ -359,7 +359,7 @@ void Graphics::DrawLine(Vec2 p0, Vec2 p1, Color c)
 			const int xi = int(x);
 			if (xi >= 0 && xi < ScreenWidth && y >= 0 && y < ScreenHeight)
 			{
-				PutPixel(x, int(y), c);
+				PutPixel(int(x), int(y), c);
 			}
 		}
 
