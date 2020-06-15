@@ -29,6 +29,7 @@
 #include "Surface.h"
 #include "CoordinateTransformer.h"
 #include "Entity.h"
+#include "FreeType.h"
 
 class Game
 {
@@ -46,9 +47,11 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
-    FT_Library library;
-    FT_Face face;
-
+    
+    //FT_Library library;
+    //FT_Face face;
+    FreeType library;
+    Font font;
 	/********************************/
 	/*  User Variables              */
 	/********************************/

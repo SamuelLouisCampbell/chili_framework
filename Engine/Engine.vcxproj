@@ -140,6 +140,7 @@
     <ClInclude Include="CoordinateTransformer.h" />
     <ClInclude Include="DXErr.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="FreeType.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Graphics.h" />
@@ -158,7 +159,6 @@
     <ClCompile Include="COMInitializer.cpp" />
     <ClCompile Include="DXErr.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Font.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Main.cpp" />

@@ -28,10 +28,11 @@
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
-	gfx( wnd )
+	gfx( wnd ),
+    font("Fonts/Helvetica.ttf", library)
 { 
  
-    
+   /* 
     if (int errorFTlib = FT_Init_FreeType(&library))
     {
         OutputDebugString(L"... an error occurred during library initialization ...\n");
@@ -54,7 +55,7 @@ Game::Game( MainWindow& wnd )
     if (FT_Set_Pixel_Sizes(face, 0, 80))
     {
         OutputDebugString(L"...Could not set pixel size...\n");
-    }
+    }*/
 }
 
 void Game::Go()
@@ -72,7 +73,7 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-    FT_GlyphSlot slot = face->glyph;
+   /* FT_GlyphSlot slot = face->glyph;
     float pen_x = 0;
     float pen_y = 0;
     std::string str = "Hello you!";
@@ -93,10 +94,10 @@ void Game::ComposeFrame()
         gfx.DrawSurface(200 + sfc.getPosOffset().x, 200 +sfc.getPosOffset().y, sfc);
 
         pen_x += slot->advance.x >> 6;
-        pen_y += slot->advance.y >> 6;
+        pen_y += slot->advance.y >> 6;*/
 
 
-    }
+  //  }
 
 
 }
