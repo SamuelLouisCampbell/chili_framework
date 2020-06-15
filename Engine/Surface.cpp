@@ -22,7 +22,6 @@ Surface::Surface(const FT_Bitmap* ftbmp, const float penX, const float penY)
 			p++;
 
 		}
-		//p += ftbmp->pitch;
 	}
 }
 

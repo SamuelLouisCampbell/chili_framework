@@ -90,7 +90,7 @@ void Game::ComposeFrame()
         }
         
         Surface sfc{ &slot->bitmap, pen_x + slot->bitmap_left, pen_y - slot->bitmap_top };
-        gfx.DrawSurface(200 + sfc.getPosOffset().x, 200, sfc);
+        gfx.DrawSurface(200 + sfc.getPosOffset().x, 200 +sfc.getPosOffset().y, sfc);
 
         pen_x += slot->advance.x >> 6;
         pen_y += slot->advance.y >> 6;
