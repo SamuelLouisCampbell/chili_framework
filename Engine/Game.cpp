@@ -29,7 +29,7 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-    font("Fonts/Helvetica.ttf", 72)
+    font("Fonts/Arial.ttf", 72)
 {
 }
 
@@ -48,8 +48,8 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-    gfx.DrawRect(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, Colors::MakeRGB(0, 64, 0));
-    std::string str = "VAPIDcc";
+    gfx.DrawRect(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, Colors::MakeRGB(0, 0, 32));
+    std::string str = "AVA Wa";
     font.RenderString(gfx, fontPos, str);
 
 }

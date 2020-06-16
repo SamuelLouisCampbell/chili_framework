@@ -83,9 +83,23 @@ public:
 		float pen_x = 0;
 		float pen_y = 0;
 		
+		bool use_kerning = FT_HAS_KERNING(fontFace);
+		int previous = 0; 
+
 		for (int n = 0; n < str.size(); n++)
 		{
 			FT_UInt glyph_index = FT_Get_Char_Index(fontFace, str[n]);
+
+			if (use_kerning && previous && glyph_index)
+			{
+				FT_Vector  delta;
+
+
+				FT_Get_Kerning(fontFace, previous, glyph_index,
+					FT_KERNING_DEFAULT, &delta);
+
+				pen_x += delta.x >> 6;
+			}
 
 			if (FT_Load_Glyph(fontFace, glyph_index, FT_LOAD_DEFAULT))
 			{
@@ -96,11 +110,14 @@ public:
 				OutputDebugString(L"...Error loading glyph slot...\n");
 			}
 
+
 			Surface sfc{ &slot->bitmap, pen_x + slot->bitmap_left, pen_y - slot->bitmap_top };
 			gfx.DrawGlyph(pos.x + sfc.getPosOffset().x, pos.y + sfc.getPosOffset().y, sfc, gfx.GetScreenRect());
 
 			pen_x += slot->advance.x >> 6;
 			pen_y += slot->advance.y >> 6;
+
+			previous = glyph_index;
 
 		}
 	}
