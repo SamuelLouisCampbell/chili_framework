@@ -29,7 +29,7 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-    font("Fonts/Helvetica.ttf", 32)
+    font("Fonts/Helvetica.ttf", 72)
 {
 }
 
@@ -48,7 +48,8 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-    std::string str = "Hello!";
+    gfx.DrawRect(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, Colors::MakeRGB(20, 0, 50));
+    std::string str = "VAPIDcc";
     font.RenderString(gfx, fontPos, str);
 
 }

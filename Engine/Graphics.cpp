@@ -384,11 +384,61 @@ void Graphics::DrawSurface(int x, int y, const Surface& s)
 	{
 		for (int sx = 0; sx < width; sx++)
 		{
-			PutPixel(x + sx, y + sy, s.GetPixel(sx, sy));
+			if (x >= 0 && x < Graphics::ScreenWidth && y >= 0 && y < Graphics::ScreenHeight)
+			{
+				PutPixel(x + sx, y + sy, s.GetPixel(sx, sy));
+			}
 		}
 	}
 }
 
+void Graphics::DrawBorder(int x, int y, int width, int height, int stroke, Color c)
+{
+	if (x > 0 &&
+		x + width < ScreenWidth &&
+		y > 0 &&
+		y + height < ScreenHeight)
+	{
+		for (int i = 0; i < width; i++)
+		{
+			for (int j = 0; j < stroke; j++)
+			{
+				PutPixel(x + i, y - j, c);
+			}
+		}
+		for (int i = 0; i < stroke; i++)
+		{
+			for (int j = 1 - stroke; j < height + stroke; j++)
+			{
+				PutPixel(x - i, y + j, c);
+			}
+		}
+		for (int i = width; i < width + stroke; i++)
+		{
+			for (int j = 1 - stroke; j < height + stroke; j++)
+			{
+				PutPixel(x + i, y + j, c);
+			}
+		}
+		for (int i = 0; i < width; i++)
+		{
+			for (int j = height; j < height + stroke; j++)
+			{
+				PutPixel(x + i, y + j, c);
+			}
+		}
+	}
+}
+
+void Graphics::DrawBorder(RectF rect, int stroke, Color c)
+{
+	DrawBorder(int(rect.left), int(rect.top), int(rect.right - rect.left), int(rect.bottom - rect.top), stroke, c);
+}
+
+void Graphics::DrawBorder(RectI rect, int stroke, Color c)
+{
+	DrawBorder(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, stroke, c);
+}
 
 //////////////////////////////////////////////////
 //           Graphics Exception

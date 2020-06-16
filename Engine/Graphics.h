@@ -27,6 +27,7 @@
 #include "Colors.h"
 #include "Vec2.h"
 #include "Surface.h"
+#include "Rect.h"
 
 class Graphics
 {
@@ -63,6 +64,19 @@ public:
 	void DrawLine(Vec2 p0, Vec2 p1, Color c = Colors::Green);
 	void DrawClosedPolyLine(const std::vector<Vec2>& verts, Color c = Colors::Green);
 	void DrawSurface(int x, int y, const Surface& s);
+	void DrawBorder(int x, int y, int width, int height, int stroke, Color c);
+	void DrawBorder(RectF rect, int stroke, Color c);
+	void DrawBorder(RectI rect, int stroke, Color c);
+	void DrawRect(int x, int y, int width, int height, Color c)
+	{
+		for (int i = x; i < x + width; i++)
+		{
+			for (int j = y; j < y + height; j++)
+			{
+				PutPixel(i, j, c);
+			}
+		}
+	}
 
 	~Graphics();
 private:

@@ -101,6 +101,7 @@ public:
 
 			pen_x += slot->advance.x >> 6;
 			pen_y += slot->advance.y >> 6;
+
 		}
 	}
 private:
@@ -120,5 +121,6 @@ private:
 private:
 	FreeType library; 
 	FT_Face fontFace;
+
 
 };

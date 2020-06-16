@@ -18,10 +18,9 @@ Surface::Surface(const FT_Bitmap* ftbmp, const float penX, const float penY)
 		
 		for (int x = 0; x < width ; x++)
 		{
-			unsigned char grey = *p;
-			PutPixel(x, y, Color(grey,grey,grey));
+			Color c = { *p,*p,*p };
+			PutPixel(x, y, c);
 			p++;
-
 		}
 	}
 }
