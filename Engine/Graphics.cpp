@@ -307,6 +307,20 @@ void Graphics::BeginFrame()
 	memset( pSysBuffer,0u,sizeof( Color ) * Graphics::ScreenHeight * Graphics::ScreenWidth );
 }
 
+RectI Graphics::GetScreenRect() const
+{
+	return screenRect;
+}
+
+Color Graphics::GetPixel(int x, int y) const
+{
+	assert(x >= 0);
+	assert(x < int(Graphics::ScreenWidth));
+	assert(y >= 0);
+	assert(y < int(Graphics::ScreenHeight));
+	return pSysBuffer[Graphics::ScreenWidth * y + x];
+}
+
 void Graphics::PutPixel( int x,int y,Color c )
 {
 	assert( x >= 0 );
@@ -376,7 +390,7 @@ void Graphics::DrawClosedPolyLine(const std::vector<Vec2>& verts, Color c)
 	DrawLine(verts.back(), verts.front(), c);
 }
 
-void Graphics::DrawSurface(int x, int y, const Surface& s)
+void Graphics::DrawGlyph(int x, int y, const Surface& s, const RectI clipRect, Color chroma)
 {
 	const int width = s.GetWidth();
 	const int height = s.GetHeight();
@@ -384,9 +398,25 @@ void Graphics::DrawSurface(int x, int y, const Surface& s)
 	{
 		for (int sx = 0; sx < width; sx++)
 		{
-			if (x >= 0 && x < Graphics::ScreenWidth && y >= 0 && y < Graphics::ScreenHeight)
+			if (x >= clipRect.left && x < clipRect.right && y >= clipRect.top && y < clipRect.bottom)
 			{
-				PutPixel(x + sx, y + sy, s.GetPixel(sx, sy));
+				if (s.GetPixel(sx,sy) != chroma)
+				{
+					//Get col from pSysBuffer
+					auto bgCol = GetPixel(x + sx, y + sy);
+					//Get col from source glyph
+					auto sourceCol = s.GetPixel(sx, sy);
+					float alphaVal = float(sourceCol.GetR()) / 255.0f;
+
+					//blend that col with glyph pixel more black = more bg color;
+					Color resultPixel;
+					resultPixel.SetR((alphaVal * sourceCol.GetR()) + ((1 - alphaVal) * bgCol.GetR()));
+					resultPixel.SetG((alphaVal * sourceCol.GetG()) + ((1 - alphaVal) * bgCol.GetG()));
+					resultPixel.SetB((alphaVal * sourceCol.GetB()) + ((1 - alphaVal) * bgCol.GetB()));
+																	   
+					PutPixel(x + sx, y + sy, resultPixel);
+			
+				}
 			}
 		}
 	}

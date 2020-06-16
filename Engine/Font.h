@@ -97,7 +97,7 @@ public:
 			}
 
 			Surface sfc{ &slot->bitmap, pen_x + slot->bitmap_left, pen_y - slot->bitmap_top };
-			gfx.DrawSurface(pos.x + sfc.getPosOffset().x, pos.y + sfc.getPosOffset().y, sfc);
+			gfx.DrawGlyph(pos.x + sfc.getPosOffset().x, pos.y + sfc.getPosOffset().y, sfc, gfx.GetScreenRect());
 
 			pen_x += slot->advance.x >> 6;
 			pen_y += slot->advance.y >> 6;

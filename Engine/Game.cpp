@@ -48,7 +48,7 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-    gfx.DrawRect(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, Colors::MakeRGB(20, 0, 50));
+    gfx.DrawRect(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, Colors::MakeRGB(0, 64, 0));
     std::string str = "VAPIDcc";
     font.RenderString(gfx, fontPos, str);
 
