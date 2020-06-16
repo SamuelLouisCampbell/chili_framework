@@ -11,7 +11,7 @@ class Font
 public:
 
 	//Pixel unit based constuctor
-	Font(std::string const& fontFilename, FreeType& library, int sizeInPix)
+	Font(std::string const& fontFilename, int sizeInPix)
 	{
 		if (FT_New_Face(library.get(), fontFilename.c_str(), 0, &fontFace) != 0)
 		{
@@ -24,7 +24,7 @@ public:
 		}
 	}
 	//Classic use of fonts relate point size to DPI of display, use this constructor if you want this functionality
-	Font(std::string const& fontFilename, FreeType& library, int pointsize, int monitorDPI)
+	Font(std::string const& fontFilename, int pointsize, int monitorDPI)
 	{
 		if (FT_New_Face(library.get(), fontFilename.c_str(), 0, &fontFace) != 0)
 		{
@@ -72,6 +72,10 @@ public:
 	{
 		return fontFace->num_glyphs;
 	}
+	int GetLineSpacing() const
+	{
+		return fontFace->height;
+	}
 	
 	void RenderString(Graphics& gfx, Vec2& pos, std::string str)
 	{
@@ -114,5 +118,7 @@ private:
 	}
 
 private:
+	FreeType library; 
 	FT_Face fontFace;
+
 };

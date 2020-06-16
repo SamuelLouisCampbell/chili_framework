@@ -29,33 +29,8 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-    font("Fonts/Helvetica.ttf", library, 32)
-{ 
- 
-   /* 
-    if (int errorFTlib = FT_Init_FreeType(&library))
-    {
-        OutputDebugString(L"... an error occurred during library initialization ...\n");
-    }
-
-    int errorFTface = FT_New_Face(library, "Fonts/Helvetica.ttf", 0, &face);
-    if (errorFTface == FT_Err_Unknown_File_Format)
-    {
-        OutputDebugString(L"... the font file could be openedand read, but it appears that its font format is unsupported\n");
-    }
-    else if (errorFTface)
-    {
-        OutputDebugString(L"... the font file could not be opened or read, or it is broken...\n");
-    }
-
-    if (FT_Set_Char_Size(face,  0, 80 * 64, 800, 600))
-    {
-        OutputDebugString(L"...Could not set font size...\n");
-    }
-    if (FT_Set_Pixel_Sizes(face, 0, 80))
-    {
-        OutputDebugString(L"...Could not set pixel size...\n");
-    }*/
+    font("Fonts/Helvetica.ttf", 32)
+{
 }
 
 void Game::Go()

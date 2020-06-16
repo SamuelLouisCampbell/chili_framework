@@ -41,19 +41,15 @@ public:
 private:
 	void ComposeFrame();
 	void UpdateModel();
-	/********************************/
-	/*  User Functions              */
-	/********************************/
+
 private:
 	MainWindow& wnd;
 	Graphics gfx;
     
     //FT_Library library;
     //FT_Face face;
-    FreeType library;
+    //FreeType library;
     Font font;
     Vec2 fontPos = { Graphics::ScreenWidth / 2, Graphics::ScreenHeight / 2 };
-	/********************************/
-	/*  User Variables              */
-	/********************************/
+
 };
