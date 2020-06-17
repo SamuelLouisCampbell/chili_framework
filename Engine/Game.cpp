@@ -46,7 +46,7 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-    std::string str = "Hi VA Wa";
+    std::string str = "I need you now!";
     font.ComputeString(str);
 }
 
@@ -54,6 +54,7 @@ void Game::ComposeFrame()
 {
     gfx.DrawRect(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, Colors::MakeRGB(0, 0, 32));
     font.RenderString(gfx, fontPos);
+    
     gfx.DrawBorder(
         (font.GetStringBox().left + fontPos.x),
         (font.GetStringBox().top + fontPos.y),

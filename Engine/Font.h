@@ -115,7 +115,6 @@ public:
 			}
 
 			pen_x += slot->advance.x >> 6;
-			//pen_y += slot->advance.y >> 6;
 
 			previous = glyph_index;
 			num_glyphs++;
@@ -127,59 +126,32 @@ public:
 
 	void ComputeBounds()
 	{
-		RectI rect;
+		RectI rect = { 100,200,0,0 };
 		RectI glyph_rect = { 0,0,0,0 };
+		RectI prev = glyph_rect;
 
-		/* initialize string rect to "empty" values */
-		rect.left = rect.top = 32000;
-		rect.right = rect.bottom = -32000;
-
-		/* for each glyph image, compute its bounding box, */
-		/* translate it, and grow the string rect          */
 		for (int n = 0; n < num_glyphs; n++)
 		{
-			FT_BBox temp; 
+			FT_BBox temp;
 			FT_Glyph_Get_CBox(glyphs[n], ft_glyph_bbox_pixels,
 				&temp);
 			glyph_rect = Convert_FT_BBox(temp);
 
-			glyph_rect.left += positions[n].x;
-			glyph_rect.right += positions[n].x;
-			glyph_rect.top += positions[n].y;
-			glyph_rect.bottom += positions[n].y;
-
-			if (glyph_rect.left < rect.left)
+			if (n < 1)
+			{
 				rect.left = glyph_rect.left;
+			}
+			rect.right += glyph_rect.right;
+			rect.top = std::max(glyph_rect.top, prev.top);
+			rect.bottom = rect.top - std::max(glyph_rect.bottom, prev.bottom);
 
-			if (glyph_rect.top < rect.top)
-				rect.top = glyph_rect.top;
-
-			if (glyph_rect.right > rect.right)
-				rect.right = glyph_rect.right;
-
-			if (glyph_rect.bottom > rect.bottom)
-				rect.bottom = glyph_rect.bottom;
 		}
-
-		/* check that we really grew the string rect */
-		if (rect.left > rect.right)
-		{
-			rect.left = 0;
-			rect.top = 0;
-			rect.right = 0;
-			rect.bottom = 0;
-		}
-
-		/* return string rect */
 		string_rect = rect;
 		
 	}
 
-
-
 	void RenderString(Graphics& gfx, Vec2& pos)
 	{
-		
 		/* compute string dimensions in integer pixels */
 		int string_width = string_rect.right - string_rect.left;
 		int string_height = string_rect.bottom - string_rect.top;
@@ -191,8 +163,8 @@ public:
 
 			image = glyphs[n];
 
-			pen.x = /*string_width + */positions[n].x;
-			pen.y = /*string_height +*/ positions[n].y;
+			pen.x = positions[n].x;
+			pen.y = positions[n].y;
 
 			if (FT_Glyph_To_Bitmap(&image, FT_RENDER_MODE_NORMAL, &pen, 0))
 			{
