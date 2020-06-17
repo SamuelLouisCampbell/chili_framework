@@ -31,6 +31,7 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
     font("Fonts/Arial.ttf", 72)
 {
+   
 }
 
 void Game::Go()
@@ -45,14 +46,19 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-  
+    std::string str = "Looking any good?";
+    font.ComputeString(str);
 }
 
 void Game::ComposeFrame()
 {
     gfx.DrawRect(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, Colors::MakeRGB(0, 0, 32));
-    std::string str = "chocolate!";
-    font.ComputeString(str);
     font.RenderString(gfx, fontPos);
+    gfx.DrawBorder(
+        (font.GetStringBox().left + fontPos.x),
+        (font.GetStringBox().top + fontPos.y),
+        ((font.GetStringBox().right + fontPos.x) - (font.GetStringBox().left + fontPos.x)),
+        ((font.GetStringBox().bottom + fontPos.y) - (font.GetStringBox().top + fontPos.y)),
+        1, Colors::Green);
 
 }

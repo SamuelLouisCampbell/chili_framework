@@ -50,6 +50,6 @@ private:
     //FT_Face face;
     //FreeType library;
     Font font;
-    Vec2 fontPos = { 400,100 };
+    Vec2 fontPos = { 0,100 };
 
 };

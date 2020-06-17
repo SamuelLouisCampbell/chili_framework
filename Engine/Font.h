@@ -97,8 +97,7 @@ public:
 				FT_Vector  delta;
 
 				FT_Get_Kerning(fontFace, previous, glyph_index, FT_KERNING_DEFAULT, &delta);
-				std::string str = std::to_string(delta.x);
-				OutputDebugStringA(str.c_str());
+
 				pen_x += delta.x;
 			}
 
@@ -114,22 +113,18 @@ public:
 			{
 				OutputDebugString(L"...Error getting glyphs...\n");
 			}
-			//old but working code. 
-			/*if (FT_Render_Glyph(fontFace->glyph, FT_RENDER_MODE_NORMAL))
-			{
-				OutputDebugString(L"...Error loading glyph slot...\n");
-			}*/
 
-			pen_x += slot->advance.x;
-			pen_y += slot->advance.y;
+			pen_x += slot->advance.x >> 6;
+			pen_y += slot->advance.y >> 6;
 
 			previous = glyph_index;
 			num_glyphs++;
-			
+	
 
 		}
 	}
-	FT_BBox ComputeBounds()
+
+	void ComputeBounds()
 	{
 		FT_BBox  bbox;
 		FT_BBox  glyph_bbox;
@@ -173,19 +168,16 @@ public:
 		}
 
 		/* return string bbox */
-		return bbox;
+		string_bbox = bbox;
+		
 	}
 
 	void RenderString(Graphics& gfx, Vec2& pos)
 	{
-		FT_BBox string_bbox = ComputeBounds();
+		ComputeBounds();
 		/* compute string dimensions in integer pixels */
 		int string_width = string_bbox.xMax - string_bbox.xMin;
 		int string_height = string_bbox.yMax - string_bbox.yMin;
-
-		/* compute start pen position in 26.6 Cartesian pixels */
-		int start_x = ((myTargetWidth - string_width) / 2) * 64;
-		int start_y = ((myTargetHeight - string_height) / 2) * 64;
 
 		for (int n = 0; n < num_glyphs; n++)
 		{
@@ -194,8 +186,8 @@ public:
 
 			image = glyphs[n];
 
-			pen.x = start_x + positions[n].x;
-			pen.y = start_y + positions[n].y;
+			pen.x = /*string_width + */positions[n].x;
+			pen.y = /*string_height +*/ positions[n].y;
 
 			if (FT_Glyph_To_Bitmap(&image, FT_RENDER_MODE_NORMAL, &pen, 0))
 			{
@@ -206,18 +198,25 @@ public:
 				FT_BitmapGlyph  bit = (FT_BitmapGlyph)image;
 
 				Surface sfc{ &bit->bitmap, float(bit->left), float(myTargetHeight - bit->top) };
-				gfx.DrawGlyph(pos.x + sfc.getPosOffset().x, pos.y + sfc.getPosOffset().y, sfc, gfx.GetScreenRect());
+				gfx.DrawGlyph(pos.x + positions[n].x, pos.y + positions[n].y, sfc, gfx.GetScreenRect());
 
 				FT_Done_Glyph(image);
 			}
 		
 		}
-
-
-		/////////////////////////////
 		
 	}
 
+	RectI GetStringBox() const
+	{
+		RectI rect = {
+			string_bbox.yMin,
+			string_bbox.yMax,
+			string_bbox.xMin,
+			string_bbox.xMax,
+		};
+		return rect;
+	}
 
 private:
 	FreeType library; 
@@ -231,7 +230,7 @@ private:
 	FT_UInt num_glyphs = 0;
 	FT_Glyph glyphs[maxChars];
 	FT_Vector positions[maxChars];
-	FT_BBox* string_bbox;
+	FT_BBox string_bbox;
 	int myTargetWidth = 0;
 	int myTargetHeight = 0;
 
