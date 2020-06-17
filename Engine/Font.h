@@ -83,6 +83,8 @@ public:
 	{
 		pen_x = 0;
 		pen_y = 0;
+		num_glyphs = 0;
+
 		FT_GlyphSlot slot = fontFace->glyph;
 		bool use_kerning = FT_HAS_KERNING(fontFace);
 
@@ -94,11 +96,10 @@ public:
 			{
 				FT_Vector  delta;
 
-
-				FT_Get_Kerning(fontFace, previous, glyph_index,
-					FT_KERNING_DEFAULT, &delta);
-
-				pen_x += delta.x * 64;
+				FT_Get_Kerning(fontFace, previous, glyph_index, FT_KERNING_DEFAULT, &delta);
+				std::string str = std::to_string(delta.x);
+				OutputDebugStringA(str.c_str());
+				pen_x += delta.x;
 			}
 
 			positions[num_glyphs].x = pen_x;
@@ -119,11 +120,12 @@ public:
 				OutputDebugString(L"...Error loading glyph slot...\n");
 			}*/
 
-			pen_x += slot->advance.x * 64;
-			pen_y += slot->advance.y * 64;
+			pen_x += slot->advance.x;
+			pen_y += slot->advance.y;
 
 			previous = glyph_index;
 			num_glyphs++;
+			
 
 		}
 	}
@@ -220,14 +222,15 @@ public:
 private:
 	FreeType library; 
 	FT_Face fontFace;
+
 	static constexpr int maxChars = 1024;
 	FT_UInt glyph_index = 0;
-	float pen_x = 0;
-	float pen_y = 0;
+	int pen_x = 0;
+	int pen_y = 0;
 	int previous = 0;
+	FT_UInt num_glyphs = 0;
 	FT_Glyph glyphs[maxChars];
 	FT_Vector positions[maxChars];
-	FT_UInt num_glyphs = 0;
 	FT_BBox* string_bbox;
 	int myTargetWidth = 0;
 	int myTargetHeight = 0;
