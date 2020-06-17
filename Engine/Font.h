@@ -126,9 +126,8 @@ public:
 
 	void ComputeBounds()
 	{
-		RectI rect = { 100,200,0,0 };
+		RectI rect = { 0,0,0,0 };
 		RectI glyph_rect = { 0,0,0,0 };
-		RectI prev = glyph_rect;
 
 		for (int n = 0; n < num_glyphs; n++)
 		{
@@ -141,13 +140,14 @@ public:
 			{
 				rect.left = glyph_rect.left;
 			}
+			
 			rect.right += glyph_rect.right;
-			rect.top = std::max(glyph_rect.top, prev.top);
-			rect.bottom = rect.top - std::max(glyph_rect.bottom, prev.bottom);
-
+			rect.top = std::max(rect.top, glyph_rect.top);
+			rect.bottom = std::max(rect.bottom, glyph_rect.bottom);
 		}
+		rect.top -= rect.bottom;
+		rect.bottom -= rect.bottom;
 		string_rect = rect;
-		
 	}
 
 	void RenderString(Graphics& gfx, Vec2& pos)

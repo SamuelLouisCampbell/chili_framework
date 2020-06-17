@@ -427,6 +427,7 @@ void Graphics::DrawGlyph(int x, int y, const Surface& s, const RectI clipRect, C
 
 void Graphics::DrawBorder(int x, int y, int width, int height, int stroke, Color c)
 {
+	
 	if (x > 0 &&
 		x + width < ScreenWidth &&
 		y > 0 &&

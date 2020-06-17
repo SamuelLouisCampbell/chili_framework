@@ -46,7 +46,7 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-    std::string str = "I need you now!";
+    std::string str = "Copper Vines";
     font.ComputeString(str);
 }
 
