@@ -39,6 +39,8 @@ void Game::Go()
 	UpdateModel();
 	ComposeFrame();
 	gfx.EndFrame();
+    //using namespace std::chrono_literals;
+    //std::this_thread::sleep_for(2s);
 }
 
 void Game::UpdateModel()
@@ -49,7 +51,8 @@ void Game::UpdateModel()
 void Game::ComposeFrame()
 {
     gfx.DrawRect(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, Colors::MakeRGB(0, 0, 32));
-    std::string str = "AVA Wa";
-    font.RenderString(gfx, fontPos, str);
+    std::string str = "chocolate!";
+    font.ComputeString(str);
+    font.RenderString(gfx, fontPos);
 
 }

@@ -50,6 +50,6 @@ private:
     //FT_Face face;
     //FreeType library;
     Font font;
-    Vec2 fontPos = { Graphics::ScreenWidth / 2, Graphics::ScreenHeight / 2 };
+    Vec2 fontPos = { 400,100 };
 
 };

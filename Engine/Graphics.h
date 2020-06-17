@@ -98,5 +98,5 @@ private:
 public:
 	static constexpr int ScreenWidth = 800;
 	static constexpr int ScreenHeight = 600;
-	const RectI screenRect = { 0,ScreenWidth, 0, ScreenHeight };
+	const RectI screenRect = { 0,ScreenHeight, 0, ScreenWidth };
 };

@@ -3,6 +3,7 @@
 #include FT_FREETYPE_H
 #include <freetype/ftimage.h>
 #include <freetype/ftmodapi.h>
+#include <freetype/ftglyph.h>
 #include <stdexcept>
 class FreeType
 {
