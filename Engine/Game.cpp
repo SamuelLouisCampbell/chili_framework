@@ -23,13 +23,14 @@
 #include "Vec2.h"
 #include <ft2build.h>
 #include FT_FREETYPE_H
-
+#include <thread>
+#include <chrono>
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-    font("Fonts/Arial.ttf", 72)
+    font("Fonts/arial.ttf", 32)
 {
    
 }
@@ -46,15 +47,22 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-    std::string str = "Copper Vines";
+    using namespace std::chrono_literals;
+    fontPos = { 400,300 };
+    std::this_thread::sleep_for(0.5s);
     font.ComputeString(str);
+    fontPos.x = fontPos.x - (font.GetStrignWidth() / 2);
+    str += add;
 }
 
 void Game::ComposeFrame()
 {
+
     gfx.DrawRect(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, Colors::MakeRGB(0, 0, 32));
+
     font.RenderString(gfx, fontPos);
     
+    //test border for text string.
     gfx.DrawBorder(
         (font.GetStringBox().left + fontPos.x),
         (font.GetStringBox().top + fontPos.y),

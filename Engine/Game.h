@@ -50,6 +50,8 @@ private:
     //FT_Face face;
     //FreeType library;
     Font font;
-    Vec2 fontPos = { 50,200 };
+    Vec2 fontPos;
+    std::string add = "A";
+    std::string str = "C";
 
 };

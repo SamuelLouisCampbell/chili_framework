@@ -237,7 +237,13 @@
     <Image Include="Images\Uncompressed-24.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Font Include="Fonts\arial.ttf" />
+    <Font Include="Fonts\arialbd.ttf" />
+    <Font Include="Fonts\arialbi.ttf" />
+    <Font Include="Fonts\ariali.ttf" />
+    <Font Include="Fonts\ariblk.ttf" />
     <Font Include="Fonts\Helvetica.ttf" />
+    <Font Include="Fonts\Inkfree.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

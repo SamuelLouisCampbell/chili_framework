@@ -142,5 +142,23 @@
     <Font Include="Fonts\Helvetica.ttf">
       <Filter>Resource Files</Filter>
     </Font>
+    <Font Include="Fonts\ariblk.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
+    <Font Include="Fonts\Inkfree.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
+    <Font Include="Fonts\arial.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
+    <Font Include="Fonts\arialbd.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
+    <Font Include="Fonts\arialbi.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
+    <Font Include="Fonts\ariali.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
   </ItemGroup>
 </Project>

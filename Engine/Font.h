@@ -188,6 +188,10 @@ public:
 	{
 		return string_rect;
 	}
+	int GetStrignWidth() const
+	{
+		return string_rect.right - string_rect.left;
+	}
 
 private:
 	RectI Convert_FT_BBox(const FT_BBox& box)
