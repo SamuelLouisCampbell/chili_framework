@@ -94,11 +94,11 @@ public:
 
 			if (use_kerning && previous && glyph_index)
 			{
-				FT_Vector  delta;
+				FT_Vector delta;
 
 				FT_Get_Kerning(fontFace, previous, glyph_index, FT_KERNING_DEFAULT, &delta);
 
-				pen_x += delta.x;
+				pen_x += (delta.x >> 6);
 			}
 
 			positions[num_glyphs].x = pen_x;
@@ -115,11 +115,12 @@ public:
 			}
 
 			pen_x += slot->advance.x >> 6;
-			pen_y += slot->advance.y >> 6;
+			//pen_y += slot->advance.y >> 6;
 
 			previous = glyph_index;
 			num_glyphs++;
-	
+			ComputeBounds();
+
 
 		}
 	}
@@ -178,7 +179,7 @@ public:
 
 	void RenderString(Graphics& gfx, Vec2& pos)
 	{
-		ComputeBounds();
+		
 		/* compute string dimensions in integer pixels */
 		int string_width = string_rect.right - string_rect.left;
 		int string_height = string_rect.bottom - string_rect.top;

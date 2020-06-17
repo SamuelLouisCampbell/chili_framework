@@ -46,7 +46,7 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-    std::string str = "Looking any good?";
+    std::string str = "Hi VA Wa";
     font.ComputeString(str);
 }
 
