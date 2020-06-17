@@ -30,38 +30,37 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-    font("Fonts/arial.ttf", 32)
+    font("Fonts/arial.ttf", 42)
 {
    
 }
 
 void Game::Go()
 {
-	gfx.BeginFrame();	
+	gfx.BeginFrame();
+    using namespace std::chrono_literals;
+    std::this_thread::sleep_for(0.016s);
 	UpdateModel();
 	ComposeFrame();
 	gfx.EndFrame();
-    //using namespace std::chrono_literals;
-    //std::this_thread::sleep_for(2s);
+  
 }
 
 void Game::UpdateModel()
 {
-    using namespace std::chrono_literals;
-    fontPos = { 400,300 };
-    std::this_thread::sleep_for(0.5s);
+    std::string str = "Shit the bed Deirdre! You caustic little shitbag why have we stopped?";
+  
+    fontPos = { Graphics::ScreenWidth / 2,Graphics::ScreenHeight / 2 };  
     font.ComputeString(str);
     fontPos.x = fontPos.x - (font.GetStrignWidth() / 2);
-    str += add;
+ 
 }
 
 void Game::ComposeFrame()
 {
 
     gfx.DrawRect(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, Colors::MakeRGB(0, 0, 32));
-
     font.RenderString(gfx, fontPos);
-    
     //test border for text string.
     gfx.DrawBorder(
         (font.GetStringBox().left + fontPos.x),

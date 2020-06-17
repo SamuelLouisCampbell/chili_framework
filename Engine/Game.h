@@ -46,12 +46,9 @@ private:
 	MainWindow& wnd;
 	Graphics gfx;
     
-    //FT_Library library;
-    //FT_Face face;
-    //FreeType library;
     Font font;
     Vec2 fontPos;
-    std::string add = ".";
-    std::string str = "FUCK!";
+
+  
 
 };

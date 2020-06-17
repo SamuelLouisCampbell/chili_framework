@@ -416,9 +416,9 @@ void Graphics::DrawGlyph(int x, int y, const Surface& s, const RectI clipRect, C
 					resultPixel.SetR((alphaVal * sourceCol.GetR()) + ((1 - alphaVal) * bgCol.GetR()));
 					resultPixel.SetG((alphaVal * sourceCol.GetG()) + ((1 - alphaVal) * bgCol.GetG()));
 					resultPixel.SetB((alphaVal * sourceCol.GetB()) + ((1 - alphaVal) * bgCol.GetB()));
-																	   
-					PutPixel(deltaX + sx, deltaY + sy, resultPixel);
 			
+					PutPixel(deltaX + sx, deltaY + sy, resultPixel);
+				
 				}
 			}
 		}
