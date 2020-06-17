@@ -51,7 +51,7 @@ private:
     //FreeType library;
     Font font;
     Vec2 fontPos;
-    std::string add = "A";
-    std::string str = "C";
+    std::string add = ".";
+    std::string str = "FUCK!";
 
 };

@@ -84,6 +84,9 @@ public:
 		pen_x = 0;
 		pen_y = 0;
 		num_glyphs = 0;
+		RectI rect = { 0,0,0,0 };
+		RectI glyph_rect = { 0,0,0,0 };
+		int hasKern = 0;
 
 		FT_GlyphSlot slot = fontFace->glyph;
 		bool use_kerning = FT_HAS_KERNING(fontFace);
@@ -97,7 +100,7 @@ public:
 				FT_Vector delta;
 
 				FT_Get_Kerning(fontFace, previous, glyph_index, FT_KERNING_DEFAULT, &delta);
-
+				hasKern = delta.x;
 				pen_x += (delta.x >> 6);
 			}
 
@@ -108,29 +111,13 @@ public:
 			{
 				OutputDebugString(L"...Error loading glyph slot...\n");
 			}
-
 			if (FT_Get_Glyph(fontFace->glyph, &glyphs[num_glyphs]))
 			{
 				OutputDebugString(L"...Error getting glyphs...\n");
 			}
 
-			pen_x += slot->advance.x >> 6;
+			//calcultate bounds
 
-			previous = glyph_index;
-			num_glyphs++;
-			ComputeBounds();
-
-
-		}
-	}
-
-	void ComputeBounds()
-	{
-		RectI rect = { 0,0,0,0 };
-		RectI glyph_rect = { 0,0,0,0 };
-
-		for (int n = 0; n < num_glyphs; n++)
-		{
 			FT_BBox temp;
 			FT_Glyph_Get_CBox(glyphs[n], ft_glyph_bbox_pixels,
 				&temp);
@@ -140,14 +127,22 @@ public:
 			{
 				rect.left = glyph_rect.left;
 			}
-			
-			rect.right += glyph_rect.right;
+
+			rect.right += (fontFace->glyph->advance.x / 64) + hasKern;
 			rect.top = std::max(rect.top, glyph_rect.top);
 			rect.bottom = std::max(rect.bottom, glyph_rect.bottom);
+
+			//update draw position
+			pen_x += slot->advance.x >> 6;
+
+			previous = glyph_index;
+			num_glyphs++;
 		}
+
 		rect.top -= rect.bottom;
 		rect.bottom -= rect.bottom;
 		string_rect = rect;
+	
 	}
 
 	void RenderString(Graphics& gfx, Vec2& pos)
