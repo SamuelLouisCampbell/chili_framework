@@ -127,7 +127,7 @@ public:
 	void ComputeBounds()
 	{
 		RectI rect;
-		RectI glyph_rect;
+		RectI glyph_rect = { 0,0,0,0 };
 
 		/* initialize string rect to "empty" values */
 		rect.left = rect.top = 32000;
@@ -140,7 +140,7 @@ public:
 			FT_BBox temp; 
 			FT_Glyph_Get_CBox(glyphs[n], ft_glyph_bbox_pixels,
 				&temp);
-			rect = Convert_FT_BBox(temp);
+			glyph_rect = Convert_FT_BBox(temp);
 
 			glyph_rect.left += positions[n].x;
 			glyph_rect.right += positions[n].x;
@@ -213,13 +213,7 @@ public:
 
 	RectI GetStringBox() const
 	{
-		RectI rect = {
-			string_rect.top,
-			string_rect.bottom,
-			string_rect.left,
-			string_rect.right			
-		};
-		return rect;
+		return string_rect;
 	}
 
 private:
