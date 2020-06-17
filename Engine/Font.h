@@ -100,7 +100,7 @@ public:
 				FT_Vector delta;
 
 				FT_Get_Kerning(fontFace, previous, glyph_index, FT_KERNING_DEFAULT, &delta);
-				hasKern = delta.x;
+
 				pen_x += (delta.x >> 6);
 			}
 
@@ -128,7 +128,7 @@ public:
 				rect.left = glyph_rect.left;
 			}
 
-			rect.right += (fontFace->glyph->advance.x / 64) + hasKern;
+			rect.right += (fontFace->glyph->advance.x / 64);
 			rect.top = std::max(rect.top, glyph_rect.top);
 			rect.bottom = std::max(rect.bottom, glyph_rect.bottom);
 
