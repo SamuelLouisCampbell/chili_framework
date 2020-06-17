@@ -126,58 +126,62 @@ public:
 
 	void ComputeBounds()
 	{
-		FT_BBox  bbox;
-		FT_BBox  glyph_bbox;
+		RectI rect;
+		RectI glyph_rect;
 
-		/* initialize string bbox to "empty" values */
-		bbox.xMin = bbox.yMin = 32000;
-		bbox.xMax = bbox.yMax = -32000;
+		/* initialize string rect to "empty" values */
+		rect.left = rect.top = 32000;
+		rect.right = rect.bottom = -32000;
 
 		/* for each glyph image, compute its bounding box, */
-		/* translate it, and grow the string bbox          */
+		/* translate it, and grow the string rect          */
 		for (int n = 0; n < num_glyphs; n++)
 		{
+			FT_BBox temp; 
 			FT_Glyph_Get_CBox(glyphs[n], ft_glyph_bbox_pixels,
-				&glyph_bbox);
+				&temp);
+			rect = Convert_FT_BBox(temp);
 
-			glyph_bbox.xMin += positions[n].x;
-			glyph_bbox.xMax += positions[n].x;
-			glyph_bbox.yMin += positions[n].y;
-			glyph_bbox.yMax += positions[n].y;
+			glyph_rect.left += positions[n].x;
+			glyph_rect.right += positions[n].x;
+			glyph_rect.top += positions[n].y;
+			glyph_rect.bottom += positions[n].y;
 
-			if (glyph_bbox.xMin < bbox.xMin)
-				bbox.xMin = glyph_bbox.xMin;
+			if (glyph_rect.left < rect.left)
+				rect.left = glyph_rect.left;
 
-			if (glyph_bbox.yMin < bbox.yMin)
-				bbox.yMin = glyph_bbox.yMin;
+			if (glyph_rect.top < rect.top)
+				rect.top = glyph_rect.top;
 
-			if (glyph_bbox.xMax > bbox.xMax)
-				bbox.xMax = glyph_bbox.xMax;
+			if (glyph_rect.right > rect.right)
+				rect.right = glyph_rect.right;
 
-			if (glyph_bbox.yMax > bbox.yMax)
-				bbox.yMax = glyph_bbox.yMax;
+			if (glyph_rect.bottom > rect.bottom)
+				rect.bottom = glyph_rect.bottom;
 		}
 
-		/* check that we really grew the string bbox */
-		if (bbox.xMin > bbox.xMax)
+		/* check that we really grew the string rect */
+		if (rect.left > rect.right)
 		{
-			bbox.xMin = 0;
-			bbox.yMin = 0;
-			bbox.xMax = 0;
-			bbox.yMax = 0;
+			rect.left = 0;
+			rect.top = 0;
+			rect.right = 0;
+			rect.bottom = 0;
 		}
 
-		/* return string bbox */
-		string_bbox = bbox;
+		/* return string rect */
+		string_rect = rect;
 		
 	}
+
+
 
 	void RenderString(Graphics& gfx, Vec2& pos)
 	{
 		ComputeBounds();
 		/* compute string dimensions in integer pixels */
-		int string_width = string_bbox.xMax - string_bbox.xMin;
-		int string_height = string_bbox.yMax - string_bbox.yMin;
+		int string_width = string_rect.right - string_rect.left;
+		int string_height = string_rect.bottom - string_rect.top;
 
 		for (int n = 0; n < num_glyphs; n++)
 		{
@@ -210,14 +214,24 @@ public:
 	RectI GetStringBox() const
 	{
 		RectI rect = {
-			string_bbox.yMin,
-			string_bbox.yMax,
-			string_bbox.xMin,
-			string_bbox.xMax,
+			string_rect.top,
+			string_rect.bottom,
+			string_rect.left,
+			string_rect.right			
 		};
 		return rect;
 	}
 
+private:
+	RectI Convert_FT_BBox(const FT_BBox& box)
+	{
+		return RectI{
+			int(box.yMin),
+			int(box.yMax),
+			int(box.xMin),
+			int(box.yMax)
+		};
+	}
 private:
 	FreeType library; 
 	FT_Face fontFace;
@@ -229,8 +243,8 @@ private:
 	int previous = 0;
 	FT_UInt num_glyphs = 0;
 	FT_Glyph glyphs[maxChars];
-	FT_Vector positions[maxChars];
-	FT_BBox string_bbox;
+	Vec2i positions[maxChars];
+	RectI string_rect;
 	int myTargetWidth = 0;
 	int myTargetHeight = 0;
 
