@@ -48,17 +48,16 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-    std::string str = "Shit the bed Deirdre! You caustic little shitbag why have we stopped?";
+    std::string str = "Test?";
   
     fontPos = { Graphics::ScreenWidth / 2,Graphics::ScreenHeight / 2 };  
     font.ComputeString(str);
-    fontPos.x = fontPos.x - (font.GetStrignWidth() / 2);
+    fontPos.x = fontPos.x - (font.GetStringWidth() / 2);
  
 }
 
 void Game::ComposeFrame()
 {
-
     gfx.DrawRect(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, Colors::MakeRGB(0, 0, 32));
     font.RenderString(gfx, fontPos);
     //test border for text string.

@@ -25,19 +25,6 @@ public:
 			throw std::runtime_error("Failed to set char size\n");
 		}
 	}
-	//Classic use of fonts relate point size to DPI of display, use this constructor if you want this functionality
-	Font(std::string const& fontFilename, int pointsize, int monitorDPI)
-	{
-		if (FT_New_Face(library.get(), fontFilename.c_str(), 0, &fontFace) != 0)
-		{
-			throw std::runtime_error("Failed to create new font face\n");
-		}
-		if (FT_Set_Char_Size(fontFace, 0, pointsize * 64, monitorDPI, monitorDPI) != 0)
-		{
-			throw std::runtime_error("Failed to set char size\n");
-		}
-	}
-
 
 	Font(Font const&) = delete;
 	Font(Font&& other)noexcept
@@ -142,48 +129,55 @@ public:
 		rect.top -= rect.bottom;
 		rect.bottom -= rect.bottom;
 		string_rect = rect;
-	
+		hasComputed = true; 
 	}
 
 	void RenderString(Graphics& gfx, Vec2& pos)
 	{
-		/* compute string dimensions in integer pixels */
-		int string_width = string_rect.right - string_rect.left;
-		int string_height = string_rect.bottom - string_rect.top;
-
-		for (int n = 0; n < num_glyphs; n++)
+		if (hasComputed)
 		{
-			FT_Glyph   image;
-			FT_Vector  pen;
+			int string_width = string_rect.right - string_rect.left;
+			int string_height = string_rect.bottom - string_rect.top;
 
-			image = glyphs[n];
-
-			pen.x = positions[n].x;
-			pen.y = positions[n].y;
-
-			if (FT_Glyph_To_Bitmap(&image, FT_RENDER_MODE_NORMAL, &pen, 0))
+			for (int n = 0; n < num_glyphs; n++)
 			{
-				OutputDebugString(L"...Error rendering glyphs...\n");
-			}
-			else
-			{
-				FT_BitmapGlyph  bit = (FT_BitmapGlyph)image;
+				FT_Glyph   image;
+				FT_Vector  pen;
 
-				Surface sfc{ &bit->bitmap, float(bit->left), float(myTargetHeight - bit->top) };
-				gfx.DrawGlyph(pos.x + positions[n].x, pos.y + positions[n].y, sfc, gfx.GetScreenRect());
+				image = glyphs[n];
 
-				FT_Done_Glyph(image);
+				pen.x = positions[n].x;
+				pen.y = positions[n].y;
+
+				if (FT_Glyph_To_Bitmap(&image, FT_RENDER_MODE_NORMAL, &pen, 0))
+				{
+					OutputDebugString(L"...Error rendering glyphs...\n");
+				}
+				else
+				{
+					FT_BitmapGlyph  bit = (FT_BitmapGlyph)image;
+
+					Surface sfc{ &bit->bitmap, float(bit->left), float(myTargetHeight - bit->top) };
+					gfx.DrawGlyph(pos.x + positions[n].x, pos.y + positions[n].y, sfc, gfx.GetScreenRect());
+
+					FT_Done_Glyph(image);
+				}
+			
 			}
-		
 		}
-		
+		else
+		{
+			OutputDebugString(L"Please compute string before calling RenderString function\n");
+		}
+		//reset computed flag for next frame
+		hasComputed = false;
 	}
 
 	RectI GetStringBox() const
 	{
 		return string_rect;
 	}
-	int GetStrignWidth() const
+	int GetStringWidth() const
 	{
 		return string_rect.right - string_rect.left;
 	}
@@ -213,6 +207,7 @@ private:
 	RectI string_rect;
 	int myTargetWidth = 0;
 	int myTargetHeight = 0;
+	bool hasComputed = false;
 
 
 
