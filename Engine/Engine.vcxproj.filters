@@ -84,6 +84,9 @@
     <ClInclude Include="FreeType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MyServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">
@@ -114,6 +117,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Surface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

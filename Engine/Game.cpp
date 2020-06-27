@@ -32,7 +32,7 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
     font("Fonts/arial.ttf", 42)
 {
-   
+    assert(!server.Initialize(ip));
 }
 
 void Game::Go()
@@ -48,6 +48,7 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+    server.Frame();
     std::string str = "Test?";
   
     fontPos = { Graphics::ScreenWidth / 2,Graphics::ScreenHeight / 2 };  

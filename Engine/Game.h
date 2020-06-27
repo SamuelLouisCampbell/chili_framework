@@ -30,6 +30,8 @@
 #include "CoordinateTransformer.h"
 #include "Entity.h"
 #include "FreeType.h"
+#include <Netstroker\IncludeMe.h>
+#include "MyServer.h"
 
 class Game
 {
@@ -45,6 +47,8 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
+    IPEndpoint ip = { "127.0.0.1", 8000 };
+    MyServer server; 
     
     Font font;
     Vec2 fontPos;

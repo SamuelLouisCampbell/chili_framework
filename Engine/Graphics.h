@@ -29,6 +29,7 @@
 #include "Surface.h"
 #include "Rect.h"
 
+
 class Graphics
 {
 public:
@@ -96,7 +97,7 @@ private:
 	D3D11_MAPPED_SUBRESOURCE							mappedSysBufferTexture;
 	Color*                                              pSysBuffer = nullptr;
 public:
-	static constexpr int ScreenWidth = 1920;
-	static constexpr int ScreenHeight = 1080;
+	static constexpr int ScreenWidth = 1280;
+	static constexpr int ScreenHeight = 720;
 	const RectI screenRect = { 0,ScreenHeight, 0, ScreenWidth };
 };
