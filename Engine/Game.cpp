@@ -32,16 +32,19 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
     font("Fonts/arial.ttf", 42)
 {
-    assert(!server.Initialize(ip));
+    if (ntwrk.Initialize())
+    {
+        server.Initialize(ip);
+    }
 }
 
 void Game::Go()
 {
 	gfx.BeginFrame();
     using namespace std::chrono_literals;
-    std::this_thread::sleep_for(0.016s);
 	UpdateModel();
 	ComposeFrame();
+    std::this_thread::sleep_for(0.016s);
 	gfx.EndFrame();
   
 }
@@ -49,8 +52,7 @@ void Game::Go()
 void Game::UpdateModel()
 {
     server.Frame();
-    std::string str = "Test?";
-  
+    std::string str = server.GetMsg();
     fontPos = { Graphics::ScreenWidth / 2,Graphics::ScreenHeight / 2 };  
     font.ComputeString(str);
     fontPos.x = fontPos.x - (font.GetStringWidth() / 2);
@@ -59,14 +61,15 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-    gfx.DrawRect(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, Colors::MakeRGB(0, 0, 32));
+    //Draw solid BG color
+    //gfx.DrawRect(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, Colors::MakeRGB(0, 0, 0));
     font.RenderString(gfx, fontPos);
     //test border for text string.
-    gfx.DrawBorder(
+    /*gfx.DrawBorder(
         (font.GetStringBox().left + fontPos.x),
         (font.GetStringBox().top + fontPos.y),
         ((font.GetStringBox().right + fontPos.x) - (font.GetStringBox().left + fontPos.x)),
         ((font.GetStringBox().bottom + fontPos.y) - (font.GetStringBox().top + fontPos.y)),
-        1, Colors::Green);
+        1, Colors::Green);*/
 
 }

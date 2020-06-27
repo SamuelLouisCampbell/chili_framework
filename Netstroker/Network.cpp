@@ -7,13 +7,12 @@ bool Netstroker::Network::Initialize()
 	int result = WSAStartup(MAKEWORD(2,2), &wsadata);
 	if (result != 0)
 	{
-		std::cerr << "Failed to start winsock API." << std::endl;
+		OutputDebugString(L"Failed to start winsock API.\n");
 		return false;
 	}
 	if (LOBYTE(wsadata.wVersion) != 2 || HIBYTE(wsadata.wVersion) != 2)
 	{
-		std::cerr << "Winsock Version 2.2 not found." << std::endl;
-		return false;
+		OutputDebugString(L"Winsock Version 2.2 not found.\n");
 	}
 	return true; 
 

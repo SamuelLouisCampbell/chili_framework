@@ -47,6 +47,7 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
+    Network ntwrk;
     IPEndpoint ip = { "127.0.0.1", 8000 };
     MyServer server; 
     

@@ -1,9 +1,12 @@
 #include "MyServer.h"
+#include <sstream>
 
 void MyServer::OnConnect(TCPConnection& newConnection)
 {
-	std::cout << newConnection.ToString() << " - New connection accepted... " << std::endl;
-	
+	std::stringstream infostring;
+	infostring << newConnection.ToString() << " - New connection accepted... " << std::endl;
+	OutputDebugStringA(infostring.str().c_str());
+
 	std::shared_ptr<Packet> newUserPacket = std::make_shared<Packet>(PacketType::PT_Handshake);
 	*newUserPacket << std::string("New User Connected");
 	for (auto& c : connections)
@@ -17,7 +20,9 @@ void MyServer::OnConnect(TCPConnection& newConnection)
 
 void MyServer::OnDisconnect(TCPConnection& lostConnection, std::string reason)
 {
-	std::cout << "[" << reason << "] - Connection lost ... " << lostConnection.ToString() << std::endl;
+	std::stringstream infostring;
+	infostring << "[" << reason << "] - Connection lost ... " << lostConnection.ToString() << std::endl;
+	OutputDebugStringA(infostring.str().c_str());
 
 	std::shared_ptr<Packet> lostUserPacket = std::make_shared<Packet>(PacketType::PT_Handshake);
 	*lostUserPacket << std::string("This user: ") << lostConnection.ToString() << std::string("disconnected");
@@ -37,10 +42,11 @@ bool MyServer::ProcessPacket(std::shared_ptr<Packet> packet)
 	{
 	case PacketType::PT_String:
 	{
-		
+		std::stringstream infostring;
+
 		*packet >> message;
 		std::string echoPre = "Echo from server: " + message;
-		std::cout << ">>>" << message << std::endl;		
+		infostring << ">>>" << echoPre << std::endl;		
 		std::shared_ptr<Packet> echo = std::make_shared<Packet>(PacketType::PT_String);
 	
 		*echo << echoPre;
@@ -48,7 +54,8 @@ bool MyServer::ProcessPacket(std::shared_ptr<Packet> packet)
 		{
 			c.pm_outgoing.Append(echo);
 		}
-
+	
+		OutputDebugStringA(infostring.str().c_str());
 		break;
 	}
 	case PacketType::PT_Handshake:
@@ -60,7 +67,9 @@ bool MyServer::ProcessPacket(std::shared_ptr<Packet> packet)
 	}
 	default:
 	{
-		std::cout << "Unrecognised Packet" << std::endl;
+		std::stringstream infostring;
+		infostring << "Unrecognised Packet" << std::endl;
+		OutputDebugStringA(infostring.str().c_str());
 		return false;
 	}
 

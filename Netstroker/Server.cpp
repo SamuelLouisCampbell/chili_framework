@@ -1,5 +1,6 @@
 #include "Server.h"
 #include "Network.h"
+#include <sstream>
 
 namespace Netstroker
 {
@@ -8,8 +9,9 @@ namespace Netstroker
 		master_fd.clear();
 		connections.clear();
 
-
-		std::cout << "Winsock API initialized." << std::endl;
+		std::stringstream infostream;
+		infostream << "Winsock API initialized." << std::endl;
+		OutputDebugStringA(infostream.str().c_str());
 
 		listeningSocket = Socket(ip.GetIPVersion());
 		if (listeningSocket.Create() == PResult::P_Success)
@@ -22,19 +24,24 @@ namespace Netstroker
 				listeningSocketFD.revents = 0;
 
 				master_fd.push_back(listeningSocketFD);
-
-				std::cout << "Listening on port: " << ip.GetPort() << std::endl;
+				
+				std::stringstream infostream;
+				infostream << "Listening on port: " << ip.GetPort() << std::endl;
+				OutputDebugStringA(infostream.str().c_str());
 				return true;
 			}
 			else
 			{
-				std::cerr << "Failed binding to port: " << ip.GetPort() << std::endl;
+				std::stringstream errorstream;
+				errorstream << "Failed binding to port: " << ip.GetPort() << std::endl;
+				OutputDebugStringA(errorstream.str().c_str());
+				
 			}
 			listeningSocket.Close();
 		}
 		else
 		{
-			std::cerr << "Socket creation FAIL" << std::endl;
+			OutputDebugString(L"Socket creation FAIL\n");
 		}
 		return false;
 	}
@@ -73,7 +80,7 @@ namespace Netstroker
 				}
 				else
 				{
-					std::cerr << "Failed to accept new connection." << std::endl;
+					OutputDebugString(L"Failed to accept new connection.\n");
 				}
 			}
 #pragma endregion Code specific to the listning socket.
@@ -246,12 +253,16 @@ namespace Netstroker
 
 	void Server::OnConnect(TCPConnection& newConnection)
 	{
-		std::cout << newConnection.ToString() << " - New connection accepted... " << std::endl;
+		std::stringstream infostring;
+		infostring << newConnection.ToString() << " - New connection accepted... " << std::endl;
+		OutputDebugStringA(infostring.str().c_str());
 	}
 
 	void Server::OnDisconnect(TCPConnection& lostConnection, std::string reason)
 	{
-		std::cout << "[" << reason << "] - Connection lost ... " << lostConnection.ToString() << std::endl;
+		std::stringstream infostring;
+		infostring << "[" << reason << "] - Connection lost ... " << lostConnection.ToString() << std::endl;
+		OutputDebugStringA(infostring.str().c_str());
 	}
 
 	void Server::CloseConnection(int connectionIndex, std::string reason)
@@ -266,7 +277,9 @@ namespace Netstroker
 
 	bool Server::ProcessPacket(std::shared_ptr<Packet> packet)
 	{
-		std::cout << "Packet recieved with size: " << packet->buffer.size() << std::endl;
+		std::stringstream infostring;
+		infostring << "Packet recieved with size: " << packet->buffer.size() << std::endl;
+		OutputDebugStringA(infostring.str().c_str());
 		return true;
 	}
 
