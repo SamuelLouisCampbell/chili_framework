@@ -65,11 +65,11 @@ void Game::ComposeFrame()
     //gfx.DrawRect(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, Colors::MakeRGB(0, 0, 0));
     font.RenderString(gfx, fontPos);
     //test border for text string.
-    /*gfx.DrawBorder(
+    gfx.DrawBorder(
         (font.GetStringBox().left + fontPos.x),
         (font.GetStringBox().top + fontPos.y),
         ((font.GetStringBox().right + fontPos.x) - (font.GetStringBox().left + fontPos.x)),
         ((font.GetStringBox().bottom + fontPos.y) - (font.GetStringBox().top + fontPos.y)),
-        1, Colors::Green);*/
+        1, Colors::Green);
 
 }

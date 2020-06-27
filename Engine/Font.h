@@ -75,6 +75,7 @@ public:
 		RectI glyph_rect = { 0,0,0,0 };
 		int hasKern = 0;
 
+	
 		FT_GlyphSlot slot = fontFace->glyph;
 		bool use_kerning = FT_HAS_KERNING(fontFace);
 

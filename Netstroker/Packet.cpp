@@ -74,7 +74,14 @@ namespace Netstroker
 		}
 
 		data.resize(stringSize);
-		data.assign(&buffer[extractionOffset], stringSize);
+		if (stringSize != 0)
+		{
+			data.assign(&buffer[extractionOffset], stringSize);
+		}
+		else
+		{
+			data.clear();
+		}
 		extractionOffset += stringSize;
 
 		return* this;
