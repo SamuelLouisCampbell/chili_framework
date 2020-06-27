@@ -7,6 +7,7 @@ namespace Netstroker
 	{
 		PT_Invalid,
 		PT_String,
-		PT_Handshake
+		PT_Handshake,
+		PT_EscapeCode
 	};
 }

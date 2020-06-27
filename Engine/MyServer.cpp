@@ -62,7 +62,13 @@ bool MyServer::ProcessPacket(std::shared_ptr<Packet> packet)
 	{
 		std::string message;
 		*packet >> message;
-		std::cout << message << std::endl;
+		OutputDebugStringA(message.c_str() + '\n');
+		break;
+	}
+	case PacketType::PT_EscapeCode:
+	{
+		*packet >> escapeCode;
+		OutputDebugStringA("NEWLINE!\n");
 		break;
 	}
 	default:
@@ -80,4 +86,9 @@ bool MyServer::ProcessPacket(std::shared_ptr<Packet> packet)
 std::string MyServer::GetMsg() const
 {
 	return message;
+}
+
+std::string MyServer::GetEscCode() const
+{
+	return escapeCode;
 }
