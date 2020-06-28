@@ -52,9 +52,12 @@ private:
     IPEndpoint ip = { "127.0.0.1", 8000 };
     MyServer server;
     
-    Font font; 
+    std::string fontName = "Fonts/arial.ttf";
+    const size_t fontSize = 42;
+
+    //Font font; 
     std::vector<std::string> strings;
-    std::vector<Font> fonts;
+    std::vector<std::unique_ptr<Font>> fonts;
     std::vector<Vec2> fontPositions;
     int counter = 0;
 

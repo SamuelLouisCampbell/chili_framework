@@ -30,8 +30,7 @@
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
-	gfx( wnd ),
-    font("Fonts/arial.ttf", 42)
+	gfx( wnd )
  
 { 
     // Init Network & Server
@@ -54,24 +53,28 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-    server.Frame();
-    for (auto f : fonts)
-    {
-        f.~Font();
-    }
-    fonts.clear();
+
     fontPositions.clear();
+    fonts.clear();
+
+    server.Frame();
+  
     StringHandling sh = { server.GetMsg() };
-    
     strings = sh.GetStringies();
-
-
-    for (int i = 0; i < strings.size(); i++)
+    int j = 0;
+    for (int i = 0; i < strings.size(); i++, j+= 42)
     {
-        fonts.push_back(font);
-        fonts[i].ComputeString(strings[i]);
+        std::unique_ptr<Font> font = std::make_unique<Font>(fontName.c_str(), fontSize);
+        fonts.push_back(std::move(font));
+
+        fonts[i]->ComputeString(strings[i]);
+        Vec2 posi = { float(Graphics::ScreenWidth / 2), float((Graphics::ScreenHeight / 2) + j )};
+        fontPositions.push_back(posi);
     }
 
+
+
+ 
  
 }
 
@@ -80,9 +83,9 @@ void Game::ComposeFrame()
     
 
 
-    //for (int i = 0; i < fonts.size(); i++)
-    //{
-    //    fonts[i].RenderString(gfx, fontPositions[i]);
+    for (int i = 0; i < fonts.size(); i++)
+    {
+        fonts[i]->RenderString(gfx, fontPositions[i]);
     //    //test border for text string.
     //      gfx.DrawBorder(
     //  (fonts[i].GetStringBox().left + fontPositions[i].x),
@@ -90,8 +93,6 @@ void Game::ComposeFrame()
     //  ((fonts[i].GetStringBox().right + fontPositions[i].x) - (fonts[i].GetStringBox().left + fontPositions[i].x)),
     //  ((fonts[i].GetStringBox().bottom + fontPositions[i].y) - (fonts[i].GetStringBox().top + fontPositions[i].y)),
     //  1, Colors::Green);
-    //}
-   
-
-
+    }
+ 
 }
