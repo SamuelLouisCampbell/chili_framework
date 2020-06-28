@@ -61,19 +61,26 @@ void Game::UpdateModel()
   
     StringHandling sh = { server.GetMsg() };
     strings = sh.GetStringies();
-    int j = 0;
-    for (int i = 0; i < strings.size(); i++, j+= 42)
+    int totalsize = 0;
+    if (strings.size() >= 1)
+    {
+        totalsize = -int((strings.size() * fontSize)) / 2;
+    }
+    for (int i = 0; i < strings.size(); i++)
     {
         std::unique_ptr<Font> font = std::make_unique<Font>(fontName.c_str(), fontSize);
         fonts.push_back(std::move(font));
-
+        
+        Vec2 posi = { float(Graphics::ScreenWidth / 2), float((Graphics::ScreenHeight / 2))};
         fonts[i]->ComputeString(strings[i]);
-        Vec2 posi = { float(Graphics::ScreenWidth / 2), float((Graphics::ScreenHeight / 2) + j )};
+
+        posi.y = (Graphics::ScreenHeight /2) + totalsize;
+        posi.x = posi.x - (fonts[i]->GetStringWidth() / 2);
         fontPositions.push_back(posi);
+        totalsize += fontSize;
     }
 
-
-
+            
  
  
 }
@@ -87,12 +94,12 @@ void Game::ComposeFrame()
     {
         fonts[i]->RenderString(gfx, fontPositions[i]);
     //    //test border for text string.
-    //      gfx.DrawBorder(
-    //  (fonts[i].GetStringBox().left + fontPositions[i].x),
-    //  (fonts[i].GetStringBox().top + fontPositions[i].y),
-    //  ((fonts[i].GetStringBox().right + fontPositions[i].x) - (fonts[i].GetStringBox().left + fontPositions[i].x)),
-    //  ((fonts[i].GetStringBox().bottom + fontPositions[i].y) - (fonts[i].GetStringBox().top + fontPositions[i].y)),
-    //  1, Colors::Green);
+          gfx.DrawBorder(
+      (fonts[i]->GetStringBox().left + fontPositions[i].x),
+      (fonts[i]->GetStringBox().top + fontPositions[i].y),
+      ((fonts[i]->GetStringBox().right + fontPositions[i].x) - (fonts[i]->GetStringBox().left + fontPositions[i].x)),
+      ((fonts[i]->GetStringBox().bottom + fontPositions[i].y) - (fonts[i]->GetStringBox().top + fontPositions[i].y)),
+      1, Colors::Red);
     }
  
 }
