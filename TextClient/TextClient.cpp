@@ -21,11 +21,11 @@ int main()
 			{
 				if (_kbhit())
 				{
+					std::shared_ptr<Packet> myPacket = std::make_shared<Packet>(PacketType::PT_String);
 					char character = _getch();
 					if (character == '\b' && message.size() > 1)
 					{
 						message.pop_back();
-						std::shared_ptr<Packet> myPacket = std::make_shared<Packet>(PacketType::PT_String);
 						*myPacket << message;
 						client.AppendPacket(myPacket);
 					}
@@ -33,7 +33,6 @@ int main()
 					{
 						message.clear();
 						message.resize(0);
-						std::shared_ptr<Packet> myPacket = std::make_shared<Packet>(PacketType::PT_String);
 						*myPacket << message;
 						client.AppendPacket(myPacket);
 					}
@@ -42,16 +41,14 @@ int main()
 						if (character >= ' ' && character <= '~')
 						{
 							message.push_back(character);
-							std::shared_ptr<Packet> myPacket = std::make_shared<Packet>(PacketType::PT_String);
 							*myPacket << message;
 							client.AppendPacket(myPacket);
 						}
 						else if (character == '\r')
 						{
-							std::shared_ptr<Packet> newLinePacket = std::make_shared<Packet>(PacketType::PT_EscapeCode);
-							std::string newLine = "NEWLINE";
-							*newLinePacket << newLine;
-							client.AppendPacket(newLinePacket);
+							message.push_back(character);
+							*myPacket << message;
+							client.AppendPacket(myPacket);
 
 						}
 					}

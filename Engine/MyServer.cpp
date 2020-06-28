@@ -92,3 +92,4 @@ std::string MyServer::GetEscCode() const
 {
 	return escapeCode;
 }
+

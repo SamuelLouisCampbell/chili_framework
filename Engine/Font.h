@@ -26,7 +26,12 @@ public:
 		}
 	}
 
-	Font(Font const&) = delete;
+	Font(const Font& other)
+		:
+		fontFace(other.fontFace)
+	{
+
+	}
 	Font(Font&& other)noexcept
 		:
 		fontFace(other.fontFace)
@@ -195,7 +200,7 @@ private:
 	}
 private:
 	FreeType library; 
-	FT_Face fontFace;
+	FT_Face fontFace = nullptr;
 
 	static constexpr int maxChars = 1024;
 	FT_UInt glyph_index = 0;

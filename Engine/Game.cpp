@@ -25,13 +25,16 @@
 #include FT_FREETYPE_H
 #include <thread>
 #include <chrono>
+#include "StringHandling.h"
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
     font("Fonts/arial.ttf", 42)
-{
+ 
+{ 
+    // Init Network & Server
     if (ntwrk.Initialize())
     {
         server.Initialize(ip);
@@ -52,24 +55,43 @@ void Game::Go()
 void Game::UpdateModel()
 {
     server.Frame();
-    std::string str = server.GetMsg();
-    fontPos = { Graphics::ScreenWidth / 2,Graphics::ScreenHeight / 2 };  
-    font.ComputeString(str);
-    fontPos.x = fontPos.x - (font.GetStringWidth() / 2);
+    for (auto f : fonts)
+    {
+        f.~Font();
+    }
+    fonts.clear();
+    fontPositions.clear();
+    StringHandling sh = { server.GetMsg() };
+    
+    strings = sh.GetStringies();
+
+
+    for (int i = 0; i < strings.size(); i++)
+    {
+        fonts.push_back(font);
+        fonts[i].ComputeString(strings[i]);
+    }
+
  
 }
 
 void Game::ComposeFrame()
 {
-    //Draw solid BG color
-    //gfx.DrawRect(0, 0, Graphics::ScreenWidth, Graphics::ScreenHeight, Colors::MakeRGB(0, 0, 0));
-    font.RenderString(gfx, fontPos);
-    //test border for text string.
-    gfx.DrawBorder(
-        (font.GetStringBox().left + fontPos.x),
-        (font.GetStringBox().top + fontPos.y),
-        ((font.GetStringBox().right + fontPos.x) - (font.GetStringBox().left + fontPos.x)),
-        ((font.GetStringBox().bottom + fontPos.y) - (font.GetStringBox().top + fontPos.y)),
-        1, Colors::Green);
+    
+
+
+    //for (int i = 0; i < fonts.size(); i++)
+    //{
+    //    fonts[i].RenderString(gfx, fontPositions[i]);
+    //    //test border for text string.
+    //      gfx.DrawBorder(
+    //  (fonts[i].GetStringBox().left + fontPositions[i].x),
+    //  (fonts[i].GetStringBox().top + fontPositions[i].y),
+    //  ((fonts[i].GetStringBox().right + fontPositions[i].x) - (fonts[i].GetStringBox().left + fontPositions[i].x)),
+    //  ((fonts[i].GetStringBox().bottom + fontPositions[i].y) - (fonts[i].GetStringBox().top + fontPositions[i].y)),
+    //  1, Colors::Green);
+    //}
+   
+
 
 }

@@ -11,8 +11,10 @@ public:
 	bool ProcessPacket(std::shared_ptr<Packet> packet) override;
 	std::string GetMsg() const; 
 	std::string GetEscCode() const;
+	bool GetNewLineGo() const;
+	void SetNewLineGoFalse(); 
 private:
 	std::string message;
-	std::string escapeCode;
+	std::string escapeCode; 
 
 };

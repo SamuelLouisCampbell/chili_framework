@@ -33,6 +33,7 @@
 #include <Netstroker\IncludeMe.h>
 #include "MyServer.h"
 
+
 class Game
 {
 public:
@@ -49,11 +50,13 @@ private:
 	Graphics gfx;
     Network ntwrk;
     IPEndpoint ip = { "127.0.0.1", 8000 };
-    MyServer server; 
+    MyServer server;
     
-    Font font;
-    Vec2 fontPos;
+    Font font; 
+    std::vector<std::string> strings;
+    std::vector<Font> fonts;
+    std::vector<Vec2> fontPositions;
+    int counter = 0;
 
-  
 
 };
