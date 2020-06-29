@@ -32,6 +32,9 @@
 #include "FreeType.h"
 #include <Netstroker\IncludeMe.h>
 #include "MyServer.h"
+#include "FrameTimer.h"
+#include <sstream>
+
 
 
 class Game
@@ -48,14 +51,19 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
+    FrameTimer ft;
     Network ntwrk;
     IPEndpoint ip = { "127.0.0.1", 8000 };
     MyServer server;
     
+    Font fpsCounterFont = { "Fonts/consola.ttf",20 };
+    Vec2 fpsPos = { 20,20 };
+    
+   
+
     std::string fontName = "Fonts/arial.ttf";
     const size_t fontSize = 42;
 
-    //Font font; 
     std::vector<std::string> strings;
     std::vector<std::unique_ptr<Font>> fonts;
     std::vector<Vec2> fontPositions;

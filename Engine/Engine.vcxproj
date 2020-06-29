@@ -167,6 +167,7 @@
     <ClInclude Include="CoordinateTransformer.h" />
     <ClInclude Include="DXErr.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="FreeType.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Font.h" />

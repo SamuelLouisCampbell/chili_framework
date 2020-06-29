@@ -100,6 +100,8 @@ public:
 			positions[num_glyphs].x = pen_x;
 			positions[num_glyphs].y = pen_y;
 
+		
+
 			if (FT_Load_Glyph(fontFace, glyph_index, FT_LOAD_DEFAULT))
 			{
 				OutputDebugString(L"...Error loading glyph slot...\n");
@@ -130,12 +132,14 @@ public:
 
 			previous = glyph_index;
 			num_glyphs++;
+		
 		}
 
 		rect.top -= rect.bottom;
 		rect.bottom -= rect.bottom;
 		string_rect = rect;
 		hasComputed = true; 
+		
 	}
 
 	void RenderString(Graphics& gfx, Vec2& pos)
@@ -151,7 +155,7 @@ public:
 				FT_Vector  pen;
 
 				image = glyphs[n];
-
+				
 				pen.x = positions[n].x;
 				pen.y = positions[n].y;
 
@@ -165,8 +169,9 @@ public:
 
 					Surface sfc{ &bit->bitmap, float(bit->left), float(myTargetHeight - bit->top) };
 					gfx.DrawGlyph(pos.x + positions[n].x, pos.y + positions[n].y, sfc, gfx.GetScreenRect());
-
-					FT_Done_Glyph(image);
+					
+					FT_Done_Glyph(glyphs[n]); //free old glyph
+					FT_Done_Glyph(image); //free cur glyph
 				}
 			
 			}

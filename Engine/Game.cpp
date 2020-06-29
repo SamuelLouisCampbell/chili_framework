@@ -27,11 +27,12 @@
 #include <chrono>
 #include "StringHandling.h"
 
+
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd )
- 
+
 { 
     // Init Network & Server
     if (ntwrk.Initialize())
@@ -46,14 +47,15 @@ void Game::Go()
     using namespace std::chrono_literals;
 	UpdateModel();
 	ComposeFrame();
-    std::this_thread::sleep_for(0.016s);
+   
 	gfx.EndFrame();
   
 }
 
 void Game::UpdateModel()
 {
-
+   
+    strings.clear();
     fontPositions.clear();
     fonts.clear();
 
@@ -79,27 +81,31 @@ void Game::UpdateModel()
         fontPositions.push_back(posi);
         totalsize += fontSize;
     }
-
-            
- 
+   
+    std::stringstream fps;
+  
+    float dt = ft.Mark();
+  
+    fps << "ms per frame: " << (dt * 60) * 60;
+    fpsCounterFont.ComputeString(fps.str());
+    
  
 }
 
 void Game::ComposeFrame()
 {
-    
-
-
     for (int i = 0; i < fonts.size(); i++)
     {
         fonts[i]->RenderString(gfx, fontPositions[i]);
     //    //test border for text string.
-          gfx.DrawBorder(
+        /*  gfx.DrawBorder(
       (fonts[i]->GetStringBox().left + fontPositions[i].x),
       (fonts[i]->GetStringBox().top + fontPositions[i].y),
       ((fonts[i]->GetStringBox().right + fontPositions[i].x) - (fonts[i]->GetStringBox().left + fontPositions[i].x)),
       ((fonts[i]->GetStringBox().bottom + fontPositions[i].y) - (fonts[i]->GetStringBox().top + fontPositions[i].y)),
-      1, Colors::Red);
+      1, Colors::Red);*/
     }
+
+    fpsCounterFont.RenderString(gfx,fpsPos);
  
 }
