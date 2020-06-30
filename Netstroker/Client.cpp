@@ -207,9 +207,8 @@ namespace Netstroker
 				}
 				connection.pm_incoming.Pop();
 			}
-			
-		
 		}
+		return true;
 	}
 
 	bool Netstroker::Client::ProcessPacket(std::shared_ptr<Packet> packet)

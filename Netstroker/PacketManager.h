@@ -5,7 +5,7 @@
 
 namespace Netstroker
 {
-	enum PacketManagerTask
+	enum class PacketManagerTask
 	{
 		ProcessPacketSize,
 		ProcessPacketContents

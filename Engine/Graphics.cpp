@@ -394,8 +394,8 @@ void Graphics::DrawGlyph(int x, int y, const Surface& s, const RectI clipRect, C
 {
 	const int width = s.GetWidth();
 	const int height = s.GetHeight();
-	int deltaX = x + s.getPosOffset().x;
-	int deltaY = y + s.getPosOffset().y;
+	float deltaX = x + s.getPosOffset().x;
+	float deltaY = y + s.getPosOffset().y;
 
 	for (int sy = 0; sy < height; sy++)
 	{
@@ -413,11 +413,11 @@ void Graphics::DrawGlyph(int x, int y, const Surface& s, const RectI clipRect, C
 
 					//blend that col with glyph pixel more black = more bg color;
 					Color resultPixel;
-					resultPixel.SetR((alphaVal * sourceCol.GetR()) + ((1 - alphaVal) * bgCol.GetR()));
-					resultPixel.SetG((alphaVal * sourceCol.GetG()) + ((1 - alphaVal) * bgCol.GetG()));
-					resultPixel.SetB((alphaVal * sourceCol.GetB()) + ((1 - alphaVal) * bgCol.GetB()));
+					resultPixel.SetR((unsigned char)(alphaVal * sourceCol.GetR()) + (unsigned char)((1.0f - alphaVal) * bgCol.GetR()));
+					resultPixel.SetG((unsigned char)(alphaVal * sourceCol.GetG()) + (unsigned char)((1.0f - alphaVal) * bgCol.GetG()));
+					resultPixel.SetB((unsigned char)(alphaVal * sourceCol.GetB()) + (unsigned char)((1.0f - alphaVal) * bgCol.GetB()));
 			
-					PutPixel(deltaX + sx, deltaY + sy, resultPixel);
+					PutPixel(int(deltaX + sx), int(deltaY + sy), resultPixel);
 				
 				}
 			}

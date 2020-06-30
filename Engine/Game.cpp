@@ -69,7 +69,7 @@ void Game::UpdateModel()
     {
         totalsize = -int((strings.size() * fontSize)) / 2;
     }
-    for (int i = 0; i < strings.size(); i++)
+    for (unsigned int i = 0; i < strings.size(); i++)
     {
         std::unique_ptr<Font> font = std::make_unique<Font>(fontName.c_str(), fontSize);
         fonts.push_back(std::move(font));
@@ -77,8 +77,8 @@ void Game::UpdateModel()
         Vec2 posi = { float(Graphics::ScreenWidth / 2), float((Graphics::ScreenHeight / 2))};
         fonts[i]->ComputeString(strings[i]);
 
-        posi.y = (Graphics::ScreenHeight /2) + totalsize;
-        posi.x = posi.x - (fonts[i]->GetStringWidth() / 2);
+        posi.y = (float)(Graphics::ScreenHeight /2) + totalsize;
+        posi.x = posi.x - float((fonts[i]->GetStringWidth() / 2));
         fontPositions.push_back(posi);
         totalsize += fontSize;
     }
@@ -105,8 +105,8 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-    gfx.DrawRect(0, 0, 1280, 720, Colors::Black);
-    for (int i = 0; i < fonts.size(); i++)
+    gfx.DrawRect(0, 0, 1280, 720, Colors::Blue);
+    for (unsigned int i = 0; i < fonts.size(); i++)
     {
       
         fonts[i]->RenderString(gfx, fontPositions[i]);

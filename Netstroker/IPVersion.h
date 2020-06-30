@@ -2,7 +2,7 @@
 
 namespace Netstroker
 {
-	enum IPVersion
+	enum class IPVersion
 	{
 		IPv4,
 		IPv6,

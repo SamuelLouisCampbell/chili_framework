@@ -84,7 +84,7 @@ public:
 		FT_GlyphSlot slot = fontFace->glyph;
 		bool use_kerning = FT_HAS_KERNING(fontFace);
 
-		for (int n = 0; n < str.size(); n++)
+		for (unsigned int n = 0; n < str.size(); n++)
 		{
 			glyph_index = FT_Get_Char_Index(fontFace, str[n]);
 
@@ -149,7 +149,7 @@ public:
 			int string_width = string_rect.right - string_rect.left;
 			int string_height = string_rect.bottom - string_rect.top;
 
-			for (int n = 0; n < num_glyphs; n++)
+			for (unsigned int n = 0; n < num_glyphs; n++)
 			{
 				FT_Glyph   image;
 				FT_Vector  pen;
@@ -168,7 +168,7 @@ public:
 					FT_BitmapGlyph  bit = (FT_BitmapGlyph)image;
 
 					Surface sfc{ &bit->bitmap, float(bit->left), float(myTargetHeight - bit->top) };
-					gfx.DrawGlyph(pos.x + positions[n].x, pos.y + positions[n].y, sfc, gfx.GetScreenRect());
+					gfx.DrawGlyph(int(pos.x) + positions[n].x, int(pos.y) + positions[n].y, sfc, gfx.GetScreenRect());
 					
 					FT_Done_Glyph(glyphs[n]); //free old glyph
 					FT_Done_Glyph(image); //free cur glyph
