@@ -66,6 +66,7 @@ public:
 	void PutPixel( int x,int y,Color c );
 	void DrawLine(Vec2 p0, Vec2 p1, Color c = Colors::Green);
 	void DrawClosedPolyLine(const std::vector<Vec2>& verts, Color c = Colors::Green);
+	void DrawGlyph(int x, int y, const Surface& s, const RectI clipRect,unsigned char alpha, Color chroma = Colors::Black);
 	void DrawGlyph(int x, int y, const Surface& s, const RectI clipRect, Color chroma = Colors::Black);
 	void DrawBorder(int x, int y, int width, int height, int stroke, Color c);
 	void DrawBorder(RectF rect, int stroke, Color c);

@@ -105,7 +105,7 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-    gfx.DrawRect(0, 0, 1280, 720, Colors::Blue);
+   // gfx.DrawRect(0, 0, 1280, 720, Colors::Blue);
     for (unsigned int i = 0; i < fonts.size(); i++)
     {
       

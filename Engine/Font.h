@@ -168,7 +168,7 @@ public:
 					FT_BitmapGlyph  bit = (FT_BitmapGlyph)image;
 
 					Surface sfc{ &bit->bitmap, float(bit->left), float(myTargetHeight - bit->top) };
-					gfx.DrawGlyph(int(pos.x) + positions[n].x, int(pos.y) + positions[n].y, sfc, gfx.GetScreenRect());
+					gfx.DrawGlyph(int(pos.x) + positions[n].x, int(pos.y) + positions[n].y, sfc, gfx.GetScreenRect(), 255);
 					
 					FT_Done_Glyph(glyphs[n]); //free old glyph
 					FT_Done_Glyph(image); //free cur glyph
