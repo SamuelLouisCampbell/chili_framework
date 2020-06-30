@@ -34,7 +34,7 @@
 #include "MyServer.h"
 #include "FrameTimer.h"
 #include <sstream>
-
+#include "NDI_Send.h"
 
 
 class Game
@@ -59,7 +59,7 @@ private:
     Font fpsCounterFont = { "Fonts/consola.ttf",20 };
     Vec2 fpsPos = { 20,20 };
     
-   
+    NDI_Send ndi;
 
     std::string fontName = "Fonts/arial.ttf";
     const size_t fontSize = 42;

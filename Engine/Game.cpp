@@ -62,6 +62,7 @@ void Game::UpdateModel()
     server.Frame();
   
     StringHandling sh = { server.GetMsg() };
+    //StringHandling sh = { "Hello!!\rCock Rodgers Is Here!" };
     strings = sh.GetStringies();
     int totalsize = 0;
     if (strings.size() >= 1)
@@ -85,7 +86,8 @@ void Game::UpdateModel()
     std::stringstream fps;
   
     float dt = ft.Mark();
-  
+   
+
     fps << "ms per frame: " << (dt * 60) * 60;
     fpsCounterFont.ComputeString(fps.str());
     
@@ -94,8 +96,10 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
+   
     for (int i = 0; i < fonts.size(); i++)
     {
+      
         fonts[i]->RenderString(gfx, fontPositions[i]);
     //    //test border for text string.
         /*  gfx.DrawBorder(
@@ -105,7 +109,7 @@ void Game::ComposeFrame()
       ((fonts[i]->GetStringBox().bottom + fontPositions[i].y) - (fonts[i]->GetStringBox().top + fontPositions[i].y)),
       1, Colors::Red);*/
     }
-
+    ndi.SendNDIFrame(gfx);
     fpsCounterFont.RenderString(gfx,fpsPos);
  
 }
