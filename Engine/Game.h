@@ -58,6 +58,9 @@ private:
     
     Font fpsCounterFont = { "Fonts/consola.ttf",20 };
     Vec2 fpsPos = { 20,20 };
+    float dtCount = 0.0f;
+    float frames = 0.0f;
+    int counter = 0;
     
     NDI_Send ndi;
 
@@ -67,7 +70,7 @@ private:
     std::vector<std::string> strings;
     std::vector<std::unique_ptr<Font>> fonts;
     std::vector<Vec2> fontPositions;
-    int counter = 0;
+   
 
 
 };

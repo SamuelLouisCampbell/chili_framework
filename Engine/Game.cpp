@@ -61,8 +61,8 @@ void Game::UpdateModel()
 
     server.Frame();
   
-    StringHandling sh = { server.GetMsg() };
-    //StringHandling sh = { "Hello!!\rCock Rodgers Is Here!" };
+    //StringHandling sh = { server.GetMsg() };
+    StringHandling sh = { "Hello!!\rCock Rodgers Is Here!" };
     strings = sh.GetStringies();
     int totalsize = 0;
     if (strings.size() >= 1)
@@ -83,20 +83,29 @@ void Game::UpdateModel()
         totalsize += fontSize;
     }
    
+    //Frame timer code.
     std::stringstream fps;
-  
     float dt = ft.Mark();
-   
-
-    fps << "ms per frame: " << (dt * 60) * 60;
+    if (counter < 15)
+    {
+        counter++;
+        dtCount += dt;
+    }
+    else
+    {
+        frames = dtCount / 15.0f;
+        counter = 0;
+        dtCount = 0.0f;
+    }
+    fps << "fps: " << (frames * 60) * 60;
     fpsCounterFont.ComputeString(fps.str());
     
- 
+    
 }
 
 void Game::ComposeFrame()
 {
-   
+    gfx.DrawRect(0, 0, 1280, 720, Colors::Black);
     for (int i = 0; i < fonts.size(); i++)
     {
       

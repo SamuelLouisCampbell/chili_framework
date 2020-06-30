@@ -151,7 +151,7 @@ namespace Netstroker
 				{
 					if (pm.currentTask == PacketManagerTask::ProcessPacketSize) // sned packet size
 					{
-						pm.currentPacketSize = pm.Retrieve()->buffer.size();
+						pm.currentPacketSize = (uint16_t)pm.Retrieve()->buffer.size();
 						uint16_t bigEndianPacketSize = htons(pm.currentPacketSize);
 						int bytesSent = send(use_fd.fd, (char*)(&bigEndianPacketSize) + pm.currentPacketExtractionOffset,
 							sizeof(uint16_t) - pm.currentPacketExtractionOffset, 0);

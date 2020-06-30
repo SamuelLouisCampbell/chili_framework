@@ -18,7 +18,8 @@ NDI_Send::NDI_Send(int in_resX, int in_resY)
 	NDI_video_frame.FourCC = NDIlib_FourCC_type_RGBA;
 	NDI_video_frame.line_stride_in_bytes = resX * 4;
 	NDI_video_frame.frame_format_type = NDIlib_frame_format_type_progressive;
-	NDI_video_frame.picture_aspect_ratio = 16.0f / 9.0f;
+	NDI_video_frame.frame_rate_N = 60000;
+	NDI_video_frame.frame_rate_D = 1000;
 	OutputDebugString(L"NDI Constructor complete...\n");
 	
 }
@@ -28,9 +29,9 @@ void NDI_Send::SendNDIFrame(Graphics& gfx)
 	p_frame.clear();
 	p_frame.reserve(resX * resY * 4);
 
-	for (int y = 0; y < resY; y++)
+	for (unsigned int y = 0; y < resY; y++)
 	{
-		for (int x = 0; x < resX; x++)
+		for (unsigned int x = 0; x < resX; x++)
 		{
 			Color c = gfx.GetPixel(x,y);
 			p_frame.push_back(c.GetR());
