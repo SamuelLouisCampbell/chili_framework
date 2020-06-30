@@ -390,7 +390,7 @@ void Graphics::DrawClosedPolyLine(const std::vector<Vec2>& verts, Color c)
 	DrawLine(verts.back(), verts.front(), c);
 }
 
-void Graphics::DrawGlyph(int x, int y, const Surface& s, const RectI clipRect, unsigned char alpha, Color chroma)
+void Graphics::DrawGlyph(int x, int y, const Surface& s, const RectI clipRect, float opacity, Color chroma)
 {
 	const int width = s.GetWidth();
 	const int height = s.GetHeight();
@@ -409,13 +409,14 @@ void Graphics::DrawGlyph(int x, int y, const Surface& s, const RectI clipRect, u
 					auto bgCol = GetPixel(x + sx, y + sy);
 					//Get col from source glyph
 					auto sourceCol = s.GetPixel(sx, sy);
-					float alphaVal = float(sourceCol.GetR()) / alpha;
+					float alphaVal = float((sourceCol.GetR()) * opacity) / 255 ;
+
 
 					//blend that col with glyph pixel more black = more bg color;
 					Color resultPixel;
-					resultPixel.SetR((unsigned char)(alphaVal * sourceCol.GetR()) + (unsigned char)((1.0f - alphaVal) * bgCol.GetR()));
-					resultPixel.SetG((unsigned char)(alphaVal * sourceCol.GetG()) + (unsigned char)((1.0f - alphaVal) * bgCol.GetG()));
-					resultPixel.SetB((unsigned char)(alphaVal * sourceCol.GetB()) + (unsigned char)((1.0f - alphaVal) * bgCol.GetB()));
+					resultPixel.SetR((alphaVal * sourceCol.GetR()) + ((1.0f - alphaVal) * bgCol.GetR()));
+					resultPixel.SetG((alphaVal * sourceCol.GetG()) + ((1.0f - alphaVal) * bgCol.GetG()));
+					resultPixel.SetB((alphaVal * sourceCol.GetB()) + ((1.0f - alphaVal) * bgCol.GetB()));
 
 					PutPixel(int(deltaX + sx), int(deltaY + sy), resultPixel);
 
