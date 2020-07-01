@@ -6,6 +6,7 @@
 #include "FreeType.h"
 #include <thread>
 #include <chrono>
+#include <freetype/ftcolor.h>
 
 
 class Font
@@ -142,10 +143,11 @@ public:
 		
 	}
 
-	void RenderString(Graphics& gfx, Vec2& pos)
+	void RenderString(Graphics& gfx, Vec2& pos, float opacity, Color c = Colors::White)
 	{
 		if (hasComputed)
 		{
+		
 			int string_width = string_rect.right - string_rect.left;
 			int string_height = string_rect.bottom - string_rect.top;
 
@@ -166,9 +168,9 @@ public:
 				else
 				{
 					FT_BitmapGlyph  bit = (FT_BitmapGlyph)image;
-
+				
 					Surface sfc{ &bit->bitmap, float(bit->left), float(myTargetHeight - bit->top) };
-					gfx.DrawGlyph(int(pos.x) + positions[n].x, int(pos.y) + positions[n].y, sfc, gfx.GetScreenRect(), 0.5f);
+					gfx.DrawGlyph(int(pos.x) + positions[n].x, int(pos.y) + positions[n].y, sfc, gfx.GetScreenRect(), opacity, Colors::Black, c);
 					
 					FT_Done_Glyph(glyphs[n]); //free old glyph to prevent memory leak
 					FT_Done_Glyph(image); //free cur glyph

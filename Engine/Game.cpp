@@ -105,11 +105,12 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-   // gfx.DrawRect(0, 0, 1280, 720, Colors::Blue);
+    //test bg col
+
     for (unsigned int i = 0; i < fonts.size(); i++)
     {
       
-        fonts[i]->RenderString(gfx, fontPositions[i]);
+        fonts[i]->RenderString(gfx, fontPositions[i], 1.0f, Colors::White);
     //    //test border for text string.
         /*  gfx.DrawBorder(
       (fonts[i]->GetStringBox().left + fontPositions[i].x),
@@ -119,6 +120,6 @@ void Game::ComposeFrame()
       1, Colors::Red);*/
     }
     ndi.SendNDIFrame(gfx);
-    fpsCounterFont.RenderString(gfx,fpsPos);
+    fpsCounterFont.RenderString(gfx,fpsPos, 1.0f, Colors::SysBlue);
  
 }

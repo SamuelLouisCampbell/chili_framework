@@ -390,8 +390,13 @@ void Graphics::DrawClosedPolyLine(const std::vector<Vec2>& verts, Color c)
 	DrawLine(verts.back(), verts.front(), c);
 }
 
-void Graphics::DrawGlyph(int x, int y, const Surface& s, const RectI clipRect, float opacity, Color chroma)
+void Graphics::DrawGlyph(int x, int y, const Surface& s, const RectI clipRect, float opacity, Color chroma, Color drawCol)
 {
+
+	float r = float(drawCol.GetR()) / 255.0f;
+	float g = float(drawCol.GetG()) / 255.0f;
+	float b = float(drawCol.GetB()) / 255.0f;
+
 	const int width = s.GetWidth();
 	const int height = s.GetHeight();
 	float deltaX = x + s.getPosOffset().x;
@@ -409,14 +414,21 @@ void Graphics::DrawGlyph(int x, int y, const Surface& s, const RectI clipRect, f
 					auto bgCol = GetPixel(x + sx, y + sy);
 					//Get col from source glyph
 					auto sourceCol = s.GetPixel(sx, sy);
-					float alphaVal = float((sourceCol.GetR()) * opacity) / 255 ;
+					float alphaValR = float((sourceCol.GetR()) * opacity) / 255 ;
+					float alphaValG = float((sourceCol.GetG()) * opacity) / 255;
+					float alphaValB = float((sourceCol.GetB()) * opacity) / 255;
 
 
 					//blend that col with glyph pixel more black = more bg color;
 					Color resultPixel;
-					resultPixel.SetR((alphaVal * sourceCol.GetR()) + ((1.0f - alphaVal) * bgCol.GetR()));
-					resultPixel.SetG((alphaVal * sourceCol.GetG()) + ((1.0f - alphaVal) * bgCol.GetG()));
-					resultPixel.SetB((alphaVal * sourceCol.GetB()) + ((1.0f - alphaVal) * bgCol.GetB()));
+					resultPixel.SetR(((alphaValR * sourceCol.GetR()) + ((1.0f - alphaValR) * bgCol.GetR())) * r);
+					resultPixel.SetG(((alphaValG * sourceCol.GetG()) + ((1.0f - alphaValG) * bgCol.GetG())) * g);
+					resultPixel.SetB(((alphaValB * sourceCol.GetB()) + ((1.0f - alphaValB) * bgCol.GetB())) * b);
+
+
+					auto Red = resultPixel.GetR();
+					auto Green = resultPixel.GetG();
+					auto Blue = resultPixel.GetB();
 
 					PutPixel(int(deltaX + sx), int(deltaY + sy), resultPixel);
 
@@ -426,7 +438,7 @@ void Graphics::DrawGlyph(int x, int y, const Surface& s, const RectI clipRect, f
 	}
 }
 
-void Graphics::DrawGlyph(int x, int y, const Surface& s, const RectI clipRect, Color chroma)
+void Graphics::DrawGlyph(int x, int y, const Surface& s, const RectI clipRect, Color chroma, Color drawCol)
 {
 	DrawGlyph(x, y, s, clipRect, 255, chroma);
 }
